@@ -1,104 +1,15 @@
-from tkinter import font
-from tooltip import CreateToolTip
 
+from tooltip import CreateToolTip
 import numpy as np
-from DataStructure.Matrices.transforms import translation
-from shutil import disk_usage
-from tkscrolledframe import ScrolledFrame, widget
 from Screen import Screen
 import tkinter as tk
-from tkinter import Canvas, Frame, Scrollbar, ttk
-from tkinter.constants import ALL, E, N, NS, RIGHT, S, VERTICAL, W, Y
-from tkinter import messagebox
+from tkinter import Frame, ttk, messagebox
+from tkinter.constants import W
+from frames import ToggledFrame
 
-class VerticalScrolledFrame:
-    def __init__(self, master, width, height, janela, **kwargs):
-        bg = kwargs.pop('bg', kwargs.pop('background', None))
-        self.outer = tk.Frame(master, **kwargs)
-        self.vsb = tk.Scrollbar(self.outer, orient=tk.VERTICAL)
-        self.vsb.pack(fill=tk.Y, side=tk.RIGHT) 
-        if(janela == 0):
-            self.canvas = tk.Canvas(self.outer, highlightthickness=0, width = width, height = int(height * 0.3) , bg=bg)
-        if(janela == 1):
-            self.canvas = tk.Canvas(self.outer, highlightthickness=0, width = width, height = int(height * 0.2), bg=bg)
-        if(janela == 2):
-            self.canvas = tk.Canvas(self.outer, highlightthickness=0, width= width, height= int(height * 0.3), bg=bg)
-        self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        self.canvas['yscrollcommand'] = self.vsb.set
-
-        self.canvas.bind("<Enter>", self._bind_mouse)
-        self.canvas.bind("<Leave>", self._unbind_mouse)
-        self.vsb['command'] = self.canvas.yview
-        self.inner = tk.Frame(self.canvas, bg=bg)
-
-        self.canvas.create_window(4, 4, window=self.inner, anchor='nw')
-        self.inner.bind("<Configure>", self._on_frame_configure)
-        self.outer_attr = set(dir(tk.Widget))
-
-    def __getattr__(self, item):
-        if item in self.outer_attr:
-            return getattr(self.outer, item)
-        else:
-            return getattr(self.inner, item)
-
-    def _on_frame_configure(self, event=None):
-        x1, y1, x2, y2 = self.canvas.bbox("all")
-        height = self.canvas.winfo_height()
-        self.canvas.config(scrollregion = (0, 0, x2, max(y2, height)))
-
-    def _bind_mouse(self, event=None):
-        self.canvas.bind_all("<4>", self._on_mousewheel)
-        self.canvas.bind_all("<5>", self._on_mousewheel)
-        self.canvas.bind_all("<MouseWheel>", self._on_mousewheel)
-
-    def _unbind_mouse(self, event=None):
-        self.canvas.unbind_all("<4>")
-        self.canvas.unbind_all("<5>")
-        self.canvas.unbind_all("<MouseWheel>")
-
-    def _on_mousewheel(self, event):
-        if event.num == 4 or event.delta > 0:
-            self.canvas.yview_scroll(-1, "units" )
-        elif event.num == 5 or event.delta < 0:
-            self.canvas.yview_scroll(1, "units" )
-
-    def __str__(self):
-        return str(self.outer)
-
-class ToggledFrame(tk.Frame):
-
-    def __init__(self, parent, width, height, text="", *args, **options):
-        tk.Frame.__init__(self, parent, *args, **options)
-
-        self.show = tk.IntVar()
-        self.show.set(0)
-
-        self.title_frame = ttk.Frame(self)
-        self.title_frame.pack(fill="x", expand=1)
-
-        ttk.Label(self.title_frame, text=text).pack(side="left", fill="x", expand=1, padx=50)
-
-        self.toggle_button = ttk.Checkbutton(self.title_frame, width=2, text='+', command=self.toggle,
-                                            variable=self.show, style='Toolbutton')
-        self.toggle_button.pack(side="left")
-
-        if(text == "Informações do objeto"):
-            self.sub_frame = VerticalScrolledFrame(self, width, height, borderwidth=1, janela= 0, relief=tk.SUNKEN)
-        if(text == "Projeção"):
-            self.sub_frame = VerticalScrolledFrame(self, width, height, borderwidth=1, janela= 1, relief=tk.SUNKEN)
-        if(text == "Iluminação e sombreamento"):
-            self.sub_frame = VerticalScrolledFrame(self, width, height, borderwidth=1, janela= 2, relief=tk.SUNKEN)        
-
-    def toggle(self):
-        if bool(self.show.get()):
-            self.sub_frame.pack(fill=tk.BOTH, expand=True) # fill window
-            self.toggle_button.configure(text='-')
-        else:
-            self.sub_frame.forget()
-            self.toggle_button.configure(text='+')
 
 def lerRadioButton(_, __, ___):
-    if(rbProjecao.get() == 0):
+    if (rbProjecao.get() == 0):
         txtPx['state'] = tk.DISABLED
         txtPy['state'] = tk.DISABLED
         txtPz['state'] = tk.DISABLED
@@ -106,6 +17,7 @@ def lerRadioButton(_, __, ___):
         txtPx['state'] = tk.WRITABLE
         txtPy['state'] = tk.WRITABLE
         txtPz['state'] = tk.WRITABLE
+
 
 def botaoObjeto(_, __, ___):
     if (drawing.objectSelected is not None):
@@ -119,8 +31,10 @@ def botaoObjeto(_, __, ___):
         btnCriarObjeto['state'] = tk.WRITABLE
         btnCriarObjeto['cursor'] = "hand2"
 
+
 def ClearScreen():
     drawing.ClearAll()
+
 
 def SendUI(values):
     txtNumLados.delete(0, tk.END)
@@ -131,9 +45,9 @@ def SendUI(values):
     txtRaioTopo.insert(0, str(values[2]))
     txtAltura.delete(0, tk.END)
     txtAltura.insert(0, str(values[3]))
-    
-    txtN.delete(0, tk.END)   
-    txtN.insert(0, str(values[4]))  
+
+    txtN.delete(0, tk.END)
+    txtN.insert(0, str(values[4]))
     txtKaR.delete(0, tk.END)
     txtKaR.insert(0, str(values[5]))
     txtKaG.delete(0, tk.END)
@@ -153,100 +67,6 @@ def SendUI(values):
     txtKsB.delete(0, tk.END)
     txtKsB.insert(0, str(values[13]))
 
-translationValue = 5
-scaleLessValue = 0.9
-scaleMoreValue = 1.111111
-rotationValue = 5
-
-def move_x_left(event):
-    if drawing.objectSelected is not None:
-        drawing.moveObject(-translationValue, 0, 0)
-        SendUI(drawing.GetAttributes())
-
-def move_x_right(event):
-    if drawing.objectSelected is not None:
-        drawing.moveObject(translationValue, 0, 0)
-        SendUI(drawing.GetAttributes())
-
-def move_z_front(event):
-    if drawing.objectSelected is not None:
-        drawing.moveObject(0, 0, translationValue)
-        SendUI(drawing.GetAttributes())
-
-def move_z_back(event):
-    if drawing.objectSelected is not None:
-        drawing.moveObject(0, 0, -translationValue)
-        SendUI(drawing.GetAttributes())
-
-def move_y_up(event):
-    if drawing.objectSelected is not None:
-        drawing.moveObject(0, translationValue, 0)
-        SendUI(drawing.GetAttributes())
-
-def move_y_down(event):
-    if drawing.objectSelected is not None:
-        drawing.moveObject(0, -translationValue, 0)
-        SendUI(drawing.GetAttributes())
-
-def scale_x_less(event):
-    if drawing.objectSelected is not None:
-        drawing.scaleObject(scaleLessValue, 1, 1)
-        SendUI(drawing.GetAttributes())
-
-def scale_x_more(event):
-    if drawing.objectSelected is not None:
-        drawing.scaleObject(scaleMoreValue, 1, 1)
-        SendUI(drawing.GetAttributes())
-
-def scale_z_less(event):
-    if drawing.objectSelected is not None:
-        drawing.scaleObject(1, 1, scaleLessValue)
-        SendUI(drawing.GetAttributes())
-
-def scale_z_more(event):
-    if drawing.objectSelected is not None:
-        drawing.scaleObject(1, 1, scaleMoreValue)
-        SendUI(drawing.GetAttributes())
-
-def scale_y_less(event):
-    if drawing.objectSelected is not None:
-        drawing.scaleObject(1, scaleLessValue, 1)
-        SendUI(drawing.GetAttributes())
-
-def scale_y_more(event):
-    if drawing.objectSelected is not None:
-        drawing.scaleObject(1, scaleMoreValue, 1)
-        SendUI(drawing.GetAttributes())
-
-def rot_x_left(event):
-    if drawing.objectSelected is not None:
-        drawing.rotObjectX(-rotationValue)
-        SendUI(drawing.GetAttributes())
-
-def rot_x_right(event):
-    if drawing.objectSelected is not None:
-        drawing.rotObjectX(rotationValue)
-        SendUI(drawing.GetAttributes())
-
-def rot_z_front(event):
-    if drawing.objectSelected is not None:
-        drawing.rotObjectZ(rotationValue)
-        SendUI(drawing.GetAttributes())
-
-def rot_z_back(event):
-    if drawing.objectSelected is not None:
-        drawing.rotObjectZ(-rotationValue)
-        SendUI(drawing.GetAttributes())
-
-def rot_y_up(event):
-    if drawing.objectSelected is not None:
-        drawing.rotObjectY(rotationValue)
-        SendUI(drawing.GetAttributes())
-
-def rot_y_down(event):
-    if drawing.objectSelected is not None:
-        drawing.rotObjectY(-rotationValue)
-        SendUI(drawing.GetAttributes())
 
 def clearObjectInfo():
     txtNumLados.delete(0, tk.END)
@@ -264,9 +84,11 @@ def clearObjectInfo():
     txtKsB.delete(0, tk.END)
     txtN.delete(0, tk.END)
 
+
 def SelectingObject(event):
     if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "objeto":
-        object = drawing.ObjectSelection(drawing.canvas.find_withtag("current")[0])
+        object = drawing.ObjectSelection(
+            drawing.canvas.find_withtag("current")[0])
         SendUI(drawing.GetAttributes())
         txtNumLados['state'] = tk.DISABLED
         txtAltura['state'] = tk.DISABLED
@@ -281,7 +103,8 @@ def SelectingObject(event):
         clearObjectInfo()
     drawing.Draw()
     botaoObjeto(0, 0, 0)
-    
+
+
 def atualizarObjeto():
     kaR = isVazio(txtKaR.get())
     kaG = isVazio(txtKaG.get())
@@ -296,8 +119,9 @@ def atualizarObjeto():
 
     ka = [kaR, kaG, kaB]
     kd = [kdR, kdG, kdB]
-    ks = [ksR, ksG, ksB] 
+    ks = [ksR, ksG, ksB]
     drawing.UpdateObject(ka, kd, ks, n)
+
 
 def objetoClick():
     numLados = int(isVazio(txtNumLados.get()))
@@ -315,16 +139,16 @@ def objetoClick():
     ksB = isVazio(txtKsB.get())
     n = isVazio(txtN.get())
 
-    if(numLados == -1):
+    if (numLados == -1):
         messagebox.showerror("Erro", "Preencha todos os campos!")
         return 0
 
-    if(int(altura) == -1 | int(raioBase) == -1 | int(raioTopo) == -1 | int(kaR) == -1 | int(kaG) == -1 |
-    int(kaB) == -1 | int(kdR) == -1 | int(kdG) == -1 | int(kdB) == -1 | int(ksR) == -1 | int(ksG) == -1 | int(ksB) == -1 | int(n) == -1):
+    if (int(altura) == -1 | int(raioBase) == -1 | int(raioTopo) == -1 | int(kaR) == -1 | int(kaG) == -1 |
+       int(kaB) == -1 | int(kdR) == -1 | int(kdG) == -1 | int(kdB) == -1 | int(ksR) == -1 | int(ksG) == -1 | int(ksB) == -1 | int(n) == -1):
         messagebox.showerror("Erro", "Preencha todos os campos!")
         return 0
 
-    if(numLados < 3):
+    if (numLados < 3):
         numLados = 3
 
     ka = [kaR, kaG, kaB]
@@ -333,6 +157,7 @@ def objetoClick():
 
     drawing.AddObjects(raioBase, raioTopo, numLados, altura, ka, kd, ks, n)
     clearObjectInfo()
+
 
 def projecaoSet(values):
     txtVRPx.delete(0, tk.END)
@@ -393,9 +218,10 @@ def projecaoSet(values):
     txtIy.insert(0, str(values[22][1]))
     txtIz.delete(0, tk.END)
     txtIz.insert(0, str(values[22][2]))
-    
+
+
 def projecaoClick():
-    #rbProjeção = 0 -> perspectiva; rbProjeção = 1 -> axonometrica
+    # rbProjeção = 0 -> perspectiva; rbProjeção = 1 -> axonometrica
     projecao = bool(int(rbProjecao.get()))
     vrpX = isVazio(txtVRPx.get())
     vrpY = isVazio(txtVRPy.get())
@@ -419,13 +245,14 @@ def projecaoClick():
     planoProjyMax = isVazio(txtLimPlanoProjyMax.get())
 
     drawing.RedoPipeline(projecao, vrpX, vrpY, vrpZ, pX, pY, pZ, viewUpX, viewUpY, viewUpZ, near, far, planoProj,
-                mundoxMin, mundoxMax, mundoyMin, mundoyMax, planoProjxMin, planoProjxMax, planoProjyMin, planoProjyMax)
-                
+                         mundoxMin, mundoxMax, mundoyMin, mundoyMax, planoProjxMin, planoProjxMax, planoProjyMin, planoProjyMax)
+
     projecaoSet(drawing.GetProjecao())
     alterarEixos()
 
+
 def iluminacaoClick():
-    #sombreamento = 0 -> constante; sombreamento = 1 -> gourad; sombreamento = 2 -> phong
+    # sombreamento = 0 -> constante; sombreamento = 1 -> gourad; sombreamento = 2 -> phong
     sombreamento = int(rbSombreamento.get())
     iaR = isVazio(txtIAR.get())
     iaG = isVazio(txtIAG.get())
@@ -443,13 +270,15 @@ def iluminacaoClick():
 
     drawing.ChangeIlumination(sombreamento, ila, il, fonteLuz)
 
+
 def isVazio(string):
-    if(string == ""):
+    if (string == ""):
         return -1
     return float(string)
 
+
 def alterarEixos():
-    posicaoEixos = drawing.PosEixos()  
+    posicaoEixos = drawing.PosEixos()
     eixoX = posicaoEixos[0]
     eixoY = posicaoEixos[1]
     eixoZ = posicaoEixos[2]
@@ -457,55 +286,76 @@ def alterarEixos():
     axisY.place(x=eixoY[0], y=eixoY[1]-20)
     axisZ.place(x=eixoZ[0], y=eixoZ[1]-20)
 
+
 if __name__ == "__main__":
+    from transformations import Transformation
     window = tk.Tk()
     window.title('The Marvelous Polygoneer')
     width = 1280
     height = 750
     window.geometry('{}x{}+{}+{}'.format(1280, 690, 0, 0))
     window.resizable(0, 0)
-    
+
     # Fazendo Frame
-    frameDrawingInterface = Frame(window,  highlightbackground= "black", highlightthickness= 1, width = int(width*0.7), height = int(height*0.88))
-    frameDrawingInterface.place(x = int(width*0.01), y = int(height * 0.01))
+    frameDrawingInterface = Frame(window,  highlightbackground="black",
+                                  highlightthickness=1, width=int(width*0.7), height=int(height*0.88))
+    frameDrawingInterface.place(x=int(width*0.01), y=int(height * 0.01))
 
     # Fazendo janela com as informações do usuário
-    userInterface = Frame(window, highlightbackground= "black", highlightthickness= 1, width = 300, height = int(height*0.9))
-    userInterface.place(x = width-310, y = int(height * 0.01))
+    userInterface = Frame(window, highlightbackground="black",
+                          highlightthickness=1, width=300, height=int(height*0.9))
+    userInterface.place(x=width-310, y=int(height * 0.01))
     userInterface.pack_propagate(0)
 
     # Fazendo o canvas
-    drawing = Screen(frameDrawingInterface, width-(330+width*0.01), height-20) 
+    drawing = Screen(frameDrawingInterface, width-(330+width*0.01), height-20)
     drawing.canvas.pack()
 
-    btnLimpar = ttk.Button(window,text="Limpar", width=15, command = ClearScreen, cursor="hand2") 
-    btnLimpar.place(x=width-(410+width*0.01), y = int(height * 0.88))
+    btnLimpar = ttk.Button(window, text="Limpar", width=15,
+                           command=ClearScreen, cursor="hand2")
+    btnLimpar.place(x=width-(410+width*0.01), y=int(height * 0.88))
 
-    txtIntegrantes = ttk.Label(window, text='Desenvolvido por: Lucas Veit, Mateus Karvat e Roberta Alcantara')
-    txtIntegrantes.place(x=10,  y = int(height * 0.89))
+    txtIntegrantes = ttk.Label(
+        window, text='Desenvolvido por: Lucas Veit, Mateus Karvat e Roberta Alcantara')
+    txtIntegrantes.place(x=10,  y=int(height * 0.89))
 
     drawing.canvas.bind('<Button-1>', SelectingObject)
 
-    drawing.canvas.bind_all('<q>', move_x_left)
-    drawing.canvas.bind_all('<a>', move_x_right)
-    drawing.canvas.bind_all('<w>', move_z_front)
-    drawing.canvas.bind_all('<s>', move_z_back)
-    drawing.canvas.bind_all('<e>', move_y_up)
-    drawing.canvas.bind_all('<d>', move_y_down)
+    t1 = Transformation()
 
-    drawing.canvas.bind_all('<r>', scale_x_less)
-    drawing.canvas.bind_all('<f>', scale_x_more)
-    drawing.canvas.bind_all('<t>', scale_z_less)
-    drawing.canvas.bind_all('<g>', scale_z_more)
-    drawing.canvas.bind_all('<y>', scale_y_less)
-    drawing.canvas.bind_all('<h>', scale_y_more)
+    drawing.canvas.bind_all(
+        '<q>', lambda event: t1.move_x_left(event, drawing))
+    drawing.canvas.bind_all(
+        '<a>', lambda event: t1.move_x_right(event, drawing))
+    drawing.canvas.bind_all(
+        '<w>', lambda event: t1.move_z_front(event, drawing))
+    drawing.canvas.bind_all(
+        '<s>', lambda event: t1.move_z_back(event, drawing))
+    drawing.canvas.bind_all('<e>', lambda event: t1.move_y_up(event, drawing))
+    drawing.canvas.bind_all(
+        '<d>', lambda event: t1.move_y_down(event, drawing))
 
-    drawing.canvas.bind_all('<u>', rot_x_left)
-    drawing.canvas.bind_all('<j>', rot_x_right)
-    drawing.canvas.bind_all('<i>', rot_z_front)
-    drawing.canvas.bind_all('<k>', rot_z_back)
-    drawing.canvas.bind_all('<o>', rot_y_up)
-    drawing.canvas.bind_all('<l>', rot_y_down)
+    drawing.canvas.bind_all(
+        '<r>', lambda event: t1.scale_x_less(event, drawing))
+    drawing.canvas.bind_all(
+        '<f>', lambda event: t1.scale_x_more(event, drawing))
+    drawing.canvas.bind_all(
+        '<t>', lambda event: t1.scale_z_less(event, drawing))
+    drawing.canvas.bind_all(
+        '<g>', lambda event: t1.scale_z_more(event, drawing))
+    drawing.canvas.bind_all(
+        '<y>', lambda event: t1.scale_y_less(event, drawing))
+    drawing.canvas.bind_all(
+        '<h>', lambda event: t1.scale_y_more(event, drawing))
+
+    drawing.canvas.bind_all('<u>', lambda event: t1.rot_x_left(event, drawing))
+    drawing.canvas.bind_all(
+        '<j>', lambda event: t1.rot_x_right(event, drawing))
+    drawing.canvas.bind_all(
+        '<i>', lambda event: t1.rot_z_front(event, drawing))
+    drawing.canvas.bind_all('<k>', lambda event: t1.rot_z_back(event, drawing))
+    drawing.canvas.bind_all('<o>', lambda event: t1.rot_y_up(event, drawing))
+    drawing.canvas.bind_all('<l>', lambda event: t1.rot_y_down(event, drawing))
 
     rbProjecao = tk.IntVar()
     rbProjecao.set(0)
@@ -514,7 +364,8 @@ if __name__ == "__main__":
     textNumLados = tk.StringVar()
     textNumLados.set("")
 
-    t = ToggledFrame(userInterface, width, height, text='Informações do objeto', relief="raised", borderwidth=1)
+    t = ToggledFrame(userInterface, width, height,
+                     text='Informações do objeto', relief="raised", borderwidth=1)
     t.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
 
     labelRaioBase = ttk.Label(t.sub_frame, text='Raio da base')
@@ -522,16 +373,20 @@ if __name__ == "__main__":
     labelRaioTopo = ttk.Label(t.sub_frame, text='Raio do topo')
     txtRaioTopo = ttk.Entry(t.sub_frame, name="txtRaioTopo", width=15)
     labelNumLados = ttk.Label(t.sub_frame, text='Número de lados')
-    txtNumLados = ttk.Entry(t.sub_frame, name="txtNumLados", width=15, textvariable=textNumLados)
+    txtNumLados = ttk.Entry(t.sub_frame, name="txtNumLados",
+                            width=15, textvariable=textNumLados)
     labelAltura = ttk.Label(t.sub_frame, text='Altura')
     txtAltura = ttk.Entry(t.sub_frame, name="txtAltura", width=15)
-    btnCriarObjeto = ttk.Button(t.sub_frame,text="Criar objeto", width=15, command=objetoClick)
-    btnAlterarObjeto = ttk.Button(t.sub_frame,text="Alterar objeto", width=15, command=atualizarObjeto)
+    btnCriarObjeto = ttk.Button(
+        t.sub_frame, text="Criar objeto", width=15, command=objetoClick)
+    btnAlterarObjeto = ttk.Button(
+        t.sub_frame, text="Alterar objeto", width=15, command=atualizarObjeto)
 
     labelN = ttk.Label(t.sub_frame, text='n')
     txtN = ttk.Entry(t.sub_frame, name="n", width=15)
 
-    labelKa = ttk.Label(t.sub_frame, text="Ka*", font="-weight bold -size 9", cursor="hand2")
+    labelKa = ttk.Label(t.sub_frame, text="Ka*",
+                        font="-weight bold -size 9", cursor="hand2")
     labelKaR = ttk.Label(t.sub_frame, text='R')
     txtKaR = ttk.Entry(t.sub_frame, name="kaR", width=15)
     labelKaG = ttk.Label(t.sub_frame, text='G')
@@ -539,7 +394,8 @@ if __name__ == "__main__":
     labelKaB = ttk.Label(t.sub_frame, text='B')
     txtKaB = ttk.Entry(t.sub_frame, name="kaB", width=15)
 
-    labelKd = ttk.Label(t.sub_frame, text="Kd*", font="-weight bold -size 9", cursor="hand2")
+    labelKd = ttk.Label(t.sub_frame, text="Kd*",
+                        font="-weight bold -size 9", cursor="hand2")
     labelKdR = ttk.Label(t.sub_frame, text='R')
     txtKdR = ttk.Entry(t.sub_frame, name="kdR", width=15)
     labelKdG = ttk.Label(t.sub_frame, text='G')
@@ -547,7 +403,8 @@ if __name__ == "__main__":
     labelKdB = ttk.Label(t.sub_frame, text='B')
     txtKdB = ttk.Entry(t.sub_frame, name="kdB", width=15)
 
-    labelKs = ttk.Label(t.sub_frame, text="Ks*", font="-weight bold -size 9", cursor="hand2")
+    labelKs = ttk.Label(t.sub_frame, text="Ks*",
+                        font="-weight bold -size 9", cursor="hand2")
     labelKsR = ttk.Label(t.sub_frame, text='R')
     txtKsR = ttk.Entry(t.sub_frame, name="ksR", width=15)
     labelKsG = ttk.Label(t.sub_frame, text='G')
@@ -598,46 +455,55 @@ if __name__ == "__main__":
     tipKs = CreateToolTip(labelKs, "Valores entre 0 e 255")
 
     textNumLados.trace('w', botaoObjeto)
-    t2 = ToggledFrame(userInterface, width, height, text='Projeção', relief="raised", borderwidth=1)
+    t2 = ToggledFrame(userInterface, width, height,
+                      text='Projeção', relief="raised", borderwidth=1)
     t2.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
 
-    labelTipoProjecao = ttk.Label(t2.sub_frame, text="Tipo de projeção", font="-weight bold -size 9")
-    rbAxonometrica = ttk.Radiobutton(t2.sub_frame, text="Axonométrica", variable= rbProjecao, value=0, cursor="hand2")
-    rbPerspectiva = ttk.Radiobutton(t2.sub_frame, text="Perspectiva", variable= rbProjecao, value=1, cursor="hand2")
+    labelTipoProjecao = ttk.Label(
+        t2.sub_frame, text="Tipo de projeção", font="-weight bold -size 9")
+    rbAxonometrica = ttk.Radiobutton(
+        t2.sub_frame, text="Axonométrica", variable=rbProjecao, value=0, cursor="hand2")
+    rbPerspectiva = ttk.Radiobutton(
+        t2.sub_frame, text="Perspectiva", variable=rbProjecao, value=1, cursor="hand2")
 
     labelVRP = ttk.Label(t2.sub_frame, text="VRP", font="-weight bold -size 9")
     labelVRPx = ttk.Label(t2.sub_frame, text="X")
     txtVRPx = ttk.Entry(t2.sub_frame, name="txtVRPx", width=15)
     labelVRPy = ttk.Label(t2.sub_frame, text="Y")
-    txtVRPy= ttk.Entry(t2.sub_frame, name="txtVRPy", width=15)
+    txtVRPy = ttk.Entry(t2.sub_frame, name="txtVRPy", width=15)
     labelVRPz = ttk.Label(t2.sub_frame, text="Z")
     txtVRPz = ttk.Entry(t2.sub_frame, name="txtVRPz", width=15)
 
-    labelP = ttk.Label(t2.sub_frame, text="Vetor P", font="-weight bold -size 9")
+    labelP = ttk.Label(t2.sub_frame, text="Vetor P",
+                       font="-weight bold -size 9")
     labelPx = ttk.Label(t2.sub_frame, text="X")
     txtPx = ttk.Entry(t2.sub_frame, name="txtPx", width=15)
     labelPy = ttk.Label(t2.sub_frame, text="Y")
-    txtPy= ttk.Entry(t2.sub_frame, name="txtPy", width=15)
+    txtPy = ttk.Entry(t2.sub_frame, name="txtPy", width=15)
     labelPz = ttk.Label(t2.sub_frame, text="Z")
     txtPz = ttk.Entry(t2.sub_frame, name="txtPz", width=15)
 
-    labelViewUp = ttk.Label(t2.sub_frame, text="Vetor View-up", font="-weight bold -size 9")
+    labelViewUp = ttk.Label(
+        t2.sub_frame, text="Vetor View-up", font="-weight bold -size 9")
     labelViewUpx = ttk.Label(t2.sub_frame, text="X")
     txtViewUpx = ttk.Entry(t2.sub_frame, name="txtViewUpx", width=15)
     labelViewUpy = ttk.Label(t2.sub_frame, text="Y")
-    txtViewUpy= ttk.Entry(t2.sub_frame, name="txtViewUpy", width=15)
+    txtViewUpy = ttk.Entry(t2.sub_frame, name="txtViewUpy", width=15)
     labelViewUpz = ttk.Label(t2.sub_frame, text="Z")
     txtViewUpz = ttk.Entry(t2.sub_frame, name="txtViewUpz", width=15)
 
-    labelDistancia = ttk.Label(t2.sub_frame, text="Distâncias", font="-weight bold -size 9")
+    labelDistancia = ttk.Label(
+        t2.sub_frame, text="Distâncias", font="-weight bold -size 9")
     labelNear = ttk.Label(t2.sub_frame, text="Plano Near")
     txtNear = ttk.Entry(t2.sub_frame, name="txtNear", width=15)
     labelFar = ttk.Label(t2.sub_frame, text="Plano Far")
-    txtFar= ttk.Entry(t2.sub_frame, name="txtFar", width=15)
+    txtFar = ttk.Entry(t2.sub_frame, name="txtFar", width=15)
     labelPlanoProjecao = ttk.Label(t2.sub_frame, text="Plano de projeção")
-    txtPlanoProjecao = ttk.Entry(t2.sub_frame, name="txtPlanoProjecao", width=15)
+    txtPlanoProjecao = ttk.Entry(
+        t2.sub_frame, name="txtPlanoProjecao", width=15)
 
-    labelLimMundo = ttk.Label(t2.sub_frame, text="Limites da window", font="-weight bold -size 9")
+    labelLimMundo = ttk.Label(
+        t2.sub_frame, text="Limites da window", font="-weight bold -size 9")
     labelLimMundoxMin = ttk.Label(t2.sub_frame, text="X min")
     txtLimMundoxMin = ttk.Entry(t2.sub_frame, name="txtLimMundoxMin", width=15)
     labelLimMundoxMax = ttk.Label(t2.sub_frame, text="X max")
@@ -647,26 +513,38 @@ if __name__ == "__main__":
     labelLimMundoyMax = ttk.Label(t2.sub_frame, text="Y max")
     txtLimMundoyMax = ttk.Entry(t2.sub_frame, name="txtLimMundoyMax", width=15)
 
-    labelLimPlanoProj = ttk.Label(t2.sub_frame, text="Limites da viewport", font="-weight bold -size 9")
-    labelLimPlanoProjxMin = ttk.Label(t2.sub_frame, text="X min*", cursor="hand2")
-    txtLimPlanoProjxMin = ttk.Entry(t2.sub_frame, name="txtLimPlanoProjxMin", width=15)
-    labelLimPlanoProjxMax = ttk.Label(t2.sub_frame, text="X max*", cursor="hand2")
-    txtLimPlanoProjxMax = ttk.Entry(t2.sub_frame, name="txtLimPlanoProjxMax", width=15)
-    labelLimPlanoProjyMin = ttk.Label(t2.sub_frame, text="Y min*", cursor="hand2")
-    txtLimPlanoProjyMin = ttk.Entry(t2.sub_frame, name="txtLimPlanoProjyMin", width=15)
-    labelLimPlanoProjyMax = ttk.Label(t2.sub_frame, text="Y max*", cursor="hand2")
-    txtLimPlanoProjyMax = ttk.Entry(t2.sub_frame, name="txtLimPlanoProjyMax", width=15)
-    btnAlterarCena = ttk.Button(t2.sub_frame,text="Alterar cena", width=15, command=projecaoClick, cursor="hand2")
+    labelLimPlanoProj = ttk.Label(
+        t2.sub_frame, text="Limites da viewport", font="-weight bold -size 9")
+    labelLimPlanoProjxMin = ttk.Label(
+        t2.sub_frame, text="X min*", cursor="hand2")
+    txtLimPlanoProjxMin = ttk.Entry(
+        t2.sub_frame, name="txtLimPlanoProjxMin", width=15)
+    labelLimPlanoProjxMax = ttk.Label(
+        t2.sub_frame, text="X max*", cursor="hand2")
+    txtLimPlanoProjxMax = ttk.Entry(
+        t2.sub_frame, name="txtLimPlanoProjxMax", width=15)
+    labelLimPlanoProjyMin = ttk.Label(
+        t2.sub_frame, text="Y min*", cursor="hand2")
+    txtLimPlanoProjyMin = ttk.Entry(
+        t2.sub_frame, name="txtLimPlanoProjyMin", width=15)
+    labelLimPlanoProjyMax = ttk.Label(
+        t2.sub_frame, text="Y max*", cursor="hand2")
+    txtLimPlanoProjyMax = ttk.Entry(
+        t2.sub_frame, name="txtLimPlanoProjyMax", width=15)
+    btnAlterarCena = ttk.Button(
+        t2.sub_frame, text="Alterar cena", width=15, command=projecaoClick, cursor="hand2")
 
     tipViewPortXmin = CreateToolTip(labelLimPlanoProjxMin, "Valores >= 0")
-    tipViewPortXmax = CreateToolTip(labelLimPlanoProjxMax, "Valores >=0 e <=937")
+    tipViewPortXmax = CreateToolTip(
+        labelLimPlanoProjxMax, "Valores >=0 e <=937")
     tipViewPortYmin = CreateToolTip(labelLimPlanoProjyMin, "Valores >= 0")
-    tipViewPortYmax = CreateToolTip(labelLimPlanoProjyMax, "Valores >=0 e <=642")
+    tipViewPortYmax = CreateToolTip(
+        labelLimPlanoProjyMax, "Valores >=0 e <=642")
 
     labelTipoProjecao.grid(row=1, column=1, padx=1, pady=2)
     rbAxonometrica.grid(row=2, column=1, padx=5, pady=2)
-    rbPerspectiva.grid(row=2, column=2, padx=5, pady=2) 
-    
+    rbPerspectiva.grid(row=2, column=2, padx=5, pady=2)
+
     labelVRP.grid(row=3, column=1, padx=10, pady=2, sticky=W)
     labelVRPx.grid(row=4, column=1, padx=1, pady=1)
     txtVRPx.grid(row=4, column=2, padx=1, pady=1)
@@ -722,12 +600,15 @@ if __name__ == "__main__":
 
     rbProjecao.trace('w', lerRadioButton)
 
-    t3 = ToggledFrame(userInterface, width, height, text='Iluminação e sombreamento', relief="raised", borderwidth=1)
+    t3 = ToggledFrame(userInterface, width, height,
+                      text='Iluminação e sombreamento', relief="raised", borderwidth=1)
     t3.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
 
-    labelIluminacao = ttk.Label(t3.sub_frame, text="Iluminação", font="-weight bold -size 9")
+    labelIluminacao = ttk.Label(
+        t3.sub_frame, text="Iluminação", font="-weight bold -size 9")
 
-    labelLuzAmbiente = ttk.Label(t3.sub_frame, text="Luz Ambiente*", font="-weight bold -size 9", cursor="hand2")
+    labelLuzAmbiente = ttk.Label(
+        t3.sub_frame, text="Luz Ambiente*", font="-weight bold -size 9", cursor="hand2")
     labelIAR = ttk.Label(t3.sub_frame, text='R')
     txtIAR = ttk.Entry(t3.sub_frame, name="iaR", width=15)
     labelIAG = ttk.Label(t3.sub_frame, text='G')
@@ -735,7 +616,8 @@ if __name__ == "__main__":
     labelIAB = ttk.Label(t3.sub_frame, text='B')
     txtIAB = ttk.Entry(t3.sub_frame, name="iaB", width=15)
 
-    labelFonteLuminosa = ttk.Label(t3.sub_frame, text="Fonte Luminosa*", font="-weight bold -size 9", cursor="hand2")
+    labelFonteLuminosa = ttk.Label(
+        t3.sub_frame, text="Fonte Luminosa*", font="-weight bold -size 9", cursor="hand2")
     labelIR = ttk.Label(t3.sub_frame, text='R')
     txtIR = ttk.Entry(t3.sub_frame, name="iR", width=15)
     labelIG = ttk.Label(t3.sub_frame, text='G')
@@ -743,7 +625,8 @@ if __name__ == "__main__":
     labelIB = ttk.Label(t3.sub_frame, text='B')
     txtIB = ttk.Entry(t3.sub_frame, name="iB", width=15)
 
-    labelPosFonteLuminosa = ttk.Label(t3.sub_frame, text="Coord. Fonte Luminosa", font="-weight bold -size 9")
+    labelPosFonteLuminosa = ttk.Label(
+        t3.sub_frame, text="Coord. Fonte Luminosa", font="-weight bold -size 9")
     labelIx = ttk.Label(t3.sub_frame, text='x')
     txtIx = ttk.Entry(t3.sub_frame, name="ix", width=15)
     labelIy = ttk.Label(t3.sub_frame, text='y')
@@ -751,17 +634,23 @@ if __name__ == "__main__":
     labelIz = ttk.Label(t3.sub_frame, text='z')
     txtIz = ttk.Entry(t3.sub_frame, name="iz", width=15)
 
-    labelTipoSombreamento = ttk.Label(t3.sub_frame, text="Sombreamento", font="-weight bold -size 9")
-    rbConstante = ttk.Radiobutton(t3.sub_frame, text="Constante", variable= rbSombreamento, value=0, cursor="hand2")
-    rbGouraud = ttk.Radiobutton(t3.sub_frame, text="Gouraud", variable= rbSombreamento, value=1, cursor="hand2")
-    rbPhong = ttk.Radiobutton(t3.sub_frame, text="Phong", variable= rbSombreamento, value=2, cursor="hand2")
-    btnAlterarIluminacao = ttk.Button(t3.sub_frame,text="Alterar Ilum/Somb", width=20, command=iluminacaoClick, cursor="hand2")
+    labelTipoSombreamento = ttk.Label(
+        t3.sub_frame, text="Sombreamento", font="-weight bold -size 9")
+    rbConstante = ttk.Radiobutton(
+        t3.sub_frame, text="Constante", variable=rbSombreamento, value=0, cursor="hand2")
+    rbGouraud = ttk.Radiobutton(
+        t3.sub_frame, text="Gouraud", variable=rbSombreamento, value=1, cursor="hand2")
+    rbPhong = ttk.Radiobutton(
+        t3.sub_frame, text="Phong", variable=rbSombreamento, value=2, cursor="hand2")
+    btnAlterarIluminacao = ttk.Button(
+        t3.sub_frame, text="Alterar Ilum/Somb", width=20, command=iluminacaoClick, cursor="hand2")
 
     rbGouraud['state'] = tk.DISABLED
     rbPhong['state'] = tk.DISABLED
 
     tipLuzAmbiente = CreateToolTip(labelLuzAmbiente, "Valores entre 0 e 255")
-    tipFonteLuminosa = CreateToolTip(labelFonteLuminosa, "Valores entre 0 e 255")
+    tipFonteLuminosa = CreateToolTip(
+        labelFonteLuminosa, "Valores entre 0 e 255")
 
     labelTipoSombreamento.grid(row=1, column=1, padx=12, pady=4, sticky=W)
     rbConstante.grid(row=2, column=1, padx=25, pady=1, sticky=W)
@@ -799,10 +688,13 @@ if __name__ == "__main__":
     txtPx['state'] = tk.DISABLED
     txtPy['state'] = tk.DISABLED
     txtPz['state'] = tk.DISABLED
-    
-    axisX = ttk.Label(frameDrawingInterface, text="X", foreground="#FF0000", background="#CCCCCC")
-    axisY = ttk.Label(frameDrawingInterface, text="Y", foreground="#00FF00", background="#CCCCCC")
-    axisZ = ttk.Label(frameDrawingInterface, text="Z", foreground="#0000FF", background="#CCCCCC")
+
+    axisX = ttk.Label(frameDrawingInterface, text="X",
+                      foreground="#FF0000", background="#CCCCCC")
+    axisY = ttk.Label(frameDrawingInterface, text="Y",
+                      foreground="#00FF00", background="#CCCCCC")
+    axisZ = ttk.Label(frameDrawingInterface, text="Z",
+                      foreground="#0000FF", background="#CCCCCC")
 
     alterarEixos()
 
