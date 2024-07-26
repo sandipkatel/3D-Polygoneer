@@ -112,7 +112,7 @@ class Screen():
         list.append(self.objects[self.objectSelected].ks[2])
         return list
         
-    def GetProjecao(self):
+    def GetProjection(self):
         list = []
         list.append(self.VRPx)
         list.append(self.VRPy)

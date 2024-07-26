@@ -79,13 +79,13 @@ class ToggledFrame(tk.Frame):
                                              variable=self.show, style='Toolbutton')
         self.toggle_button.pack(side="left")
 
-        if (text == "Informações do objeto"):
+        if (text == "Object Information"):
             self.sub_frame = VerticalScrolledFrame(
                 self, width, height, borderwidth=1, janela=0, relief=tk.SUNKEN)
-        if (text == "Projeção"):
+        if (text == "Projection"):
             self.sub_frame = VerticalScrolledFrame(
                 self, width, height, borderwidth=1, janela=1, relief=tk.SUNKEN)
-        if (text == "Iluminação e sombreamento"):
+        if (text == "Lighting and Shading"):
             self.sub_frame = VerticalScrolledFrame(
                 self, width, height, borderwidth=1, janela=2, relief=tk.SUNKEN)
 

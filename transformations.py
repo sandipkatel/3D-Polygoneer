@@ -1,4 +1,4 @@
-from Interface import SendUI
+from main import SendUI
 
 
 class Transformation:
