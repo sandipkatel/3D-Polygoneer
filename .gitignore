@@ -356,6 +356,7 @@ test.py
 test*.py
 tempCodeRunnerFile.py
 slider.py
+temp*.py
 
 # ttf files
 arial.ttf

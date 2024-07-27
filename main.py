@@ -9,7 +9,7 @@ from frames import ToggledFrame
 from RGBSlider import RGBSliderApp
 
 
-def readRadiusButton(_, __, ___):
+"""def readRadiusButton(_, __, ___):
     if (rbProjection.get() == 0):
         txtPx['state'] = tk.DISABLED
         txtPy['state'] = tk.DISABLED
@@ -17,7 +17,7 @@ def readRadiusButton(_, __, ___):
     else:
         txtPx['state'] = tk.NORMAL
         txtPy['state'] = tk.NORMAL
-        txtPz['state'] = tk.NORMAL
+        txtPz['state'] = tk.NORMAL"""
 
 
 def buttonObject(_, __, ___):
@@ -72,15 +72,9 @@ def clearObjectInfo():
     txtHeight.delete(0, tk.END)
     txtBaseRadius.delete(0, tk.END)
     txtTopRadius.delete(0, tk.END)
-    txtKaR.delete(0, tk.END)
-    txtKaG.delete(0, tk.END)
-    txtKaB.delete(0, tk.END)
-    txtKdR.delete(0, tk.END)
-    txtKdG.delete(0, tk.END)
-    txtKdB.delete(0, tk.END)
-    txtKsR.delete(0, tk.END)
-    txtKsG.delete(0, tk.END)
-    txtKsB.delete(0, tk.END)
+    slideKa.reset()
+    slideKs.reset()
+    slideKd.reset()
 
 
 def SelectingObject(event):
@@ -152,7 +146,7 @@ def objectClick():
     ks = [ksR, ksG, ksB]
 
     drawing.AddObjects(BaseRadius, TopRadius, NumSides, Height, ka, kd, ks)
-    clearObjectInfo()
+    #clearObjectInfo()
 
 
 def ProjectionSet(values):
@@ -196,24 +190,6 @@ def ProjectionSet(values):
     txtViewportLimitsyMin.insert(0, str(values[18]))
     txtViewportLimitsyMax.delete(0, tk.END)
     txtViewportLimitsyMax.insert(0, str(values[19]))
-    txtIAR.delete(0, tk.END)
-    txtIAR.insert(0, str(values[20][0]))
-    txtIAG.delete(0, tk.END)
-    txtIAG.insert(0, str(values[20][1]))
-    txtIAB.delete(0, tk.END)
-    txtIAB.insert(0, str(values[20][2]))
-    txtIR.delete(0, tk.END)
-    txtIR.insert(0, str(values[21][0]))
-    txtIG.delete(0, tk.END)
-    txtIG.insert(0, str(values[21][1]))
-    txtIB.delete(0, tk.END)
-    txtIB.insert(0, str(values[21][2]))
-    txtIx.delete(0, tk.END)
-    txtIx.insert(0, str(values[22][0]))
-    txtIy.delete(0, tk.END)
-    txtIy.insert(0, str(values[22][1]))
-    txtIz.delete(0, tk.END)
-    txtIz.insert(0, str(values[22][2]))
 
 
 def ProjectionClick():
@@ -245,26 +221,6 @@ def ProjectionClick():
 
     ProjectionSet(drawing.GetProjection())
     updateAxes()
-
-
-def iluminacaoClick():
-    # Shading = 0 -> Constant; Shading = 1 -> gourad; Shading = 2 -> phong
-    Shading = int(rbShading.get())
-    iaR = isEmpty(txtIAR.get())
-    iaG = isEmpty(txtIAG.get())
-    iaB = isEmpty(txtIAB.get())
-    iR = isEmpty(txtIR.get())
-    iG = isEmpty(txtIG.get())
-    iB = isEmpty(txtIB.get())
-    iX = isEmpty(txtIx.get())
-    iY = isEmpty(txtIy.get())
-    iZ = isEmpty(txtIz.get())
-
-    ila = [iaR, iaG, iaB]
-    il = [iR, iG, iB]
-    fonteLuz = np.array([iX, iY, iZ])
-
-    drawing.ChangeIlumination(Shading, ila, il, fonteLuz)
 
 
 def isEmpty(string):
@@ -378,34 +334,21 @@ if __name__ == "__main__":
     btnUpdateObject = ttk.Button(
         t.sub_frame, text="Update Object", width=15, command=updateObject)
 
-    slide = RGBSliderApp()
+    slideKa = RGBSliderApp()
+    slideKs = RGBSliderApp()
+    slideKd = RGBSliderApp()
 
     labelKa = ttk.Label(t.sub_frame, text="Ka*",
                         font="-weight bold -size 9", cursor="hand2")
-    """labelKaR = ttk.Label(t.sub_frame, text='R')
-    txtKaR = ttk.Entry(t.sub_frame, name="kaR", width=15)
-    labelKaG = ttk.Label(t.sub_frame, text='G')
-    txtKaG = ttk.Entry(t.sub_frame, name="kaG", width=15)
-    labelKaB = ttk.Label(t.sub_frame, text='B')
-    txtKaB = ttk.Entry(t.sub_frame, name="kaB", width=15)"""
+    # Ka (Ambient Reflectivity): This represents the material's response to ambient light. Ambient light is scattered in all directions and does not come from a specific source. Ka defines how much ambient light is reflected by the surface.
 
     labelKd = ttk.Label(t.sub_frame, text="Kd*",
                         font="-weight bold -size 9", cursor="hand2")
-    """labelKdR = ttk.Label(t.sub_frame, text='R')
-    txtKdR = ttk.Entry(t.sub_frame, name="kdR", width=15)
-    labelKdG = ttk.Label(t.sub_frame, text='G')
-    txtKdG = ttk.Entry(t.sub_frame, name="kdG", width=15)
-    labelKdB = ttk.Label(t.sub_frame, text='B')
-    txtKdB = ttk.Entry(t.sub_frame, name="kdB", width=15)"""
+    # Kd (Diffuse Reflectivity): This represents the material's response to diffuse light. Diffuse light comes from a specific direction and is scattered evenly across the surface. Kd defines how much diffuse light is reflected by the surface.
 
     labelKs = ttk.Label(t.sub_frame, text="Ks*",
                         font="-weight bold -size 9", cursor="hand2")
-    """labelKsR = ttk.Label(t.sub_frame, text='R')
-    txtKsR = ttk.Entry(t.sub_frame, name="ksR", width=15)
-    labelKsG = ttk.Label(t.sub_frame, text='G')
-    txtKsG = ttk.Entry(t.sub_frame, name="ksG", width=15)
-    labelKsB = ttk.Label(t.sub_frame, text='B')
-    txtKsB = ttk.Entry(t.sub_frame, name="ksB", width=15)"""
+    # Ks (Specular Reflectivity): This represents the material's response to specular light. Specular light creates highlights and comes from a specific direction. Ks defines how much specular light is reflected by the surface.
 
     labelNumSides.grid(row=1, column=1, padx=10, pady=1)
     txtNumSides.grid(row=1, column=2, padx=1, pady=1)
@@ -417,38 +360,16 @@ if __name__ == "__main__":
     txtHeight.grid(row=5, column=2, padx=1, pady=1)
 
     labelKa.grid(row=7, column=1,  padx=10, pady=2, sticky=W)
-    txtKaR, txtKaG, txtKaB = slide.sliders(t.sub_frame, 7, 1)
-    """labelKaR.grid(row=8, column=1, padx=1, pady=1)
-    txtKaR.grid(row=8, column=2, padx=1, pady=1)
-    labelKaG.grid(row=9, column=1, padx=1, pady=1)
-    txtKaG.grid(row=9, column=2, padx=1, pady=1)
-    labelKaB.grid(row=10, column=1, padx=1, pady=1)
-    txtKaB.grid(row=10, column=2, padx=1, pady=1)"""
+    txtKaR, txtKaG, txtKaB = slideKa.sliders(t.sub_frame, 7, 1)
 
     labelKd.grid(row=11, column=1,  padx=10, pady=2, sticky=W)
-    txtKdR, txtKdG, txtKdB = slide.sliders(t.sub_frame, 10, 1)
-    """labelKdR.grid(row=12, column=1, padx=1, pady=1)
-    txtKdR.grid(row=12, column=2, padx=1, pady=1)
-    labelKdG.grid(row=13, column=1, padx=1, pady=1)
-    txtKdG.grid(row=13, column=2, padx=1, pady=1)
-    labelKdB.grid(row=14, column=1, padx=1, pady=1)
-    txtKdB.grid(row=14, column=2, padx=1, pady=1)"""
+    txtKdR, txtKdG, txtKdB = slideKd.sliders(t.sub_frame, 10, 1)
 
     labelKs.grid(row=15, column=1,  padx=10, pady=2, sticky=W)
-    txtKsR, txtKsG, txtKsB = slide.sliders(t.sub_frame, 14, 1)
-    """labelKsR.grid(row=16, column=1, padx=1, pady=1)
-    txtKsR.grid(row=16, column=2, padx=1, pady=1)
-    labelKsG.grid(row=17, column=1, padx=1, pady=1)
-    txtKsG.grid(row=17, column=2, padx=1, pady=1)
-    labelKsB.grid(row=18, column=1, padx=1, pady=1)
-    txtKsB.grid(row=18, column=2, padx=1, pady=1)"""
+    txtKsR, txtKsG, txtKsB = slideKs.sliders(t.sub_frame, 14, 1)
 
     btnCreateObject.grid(row=19, column=1, padx=4, pady=8)
     btnUpdateObject.grid(row=19, column=2, padx=4, pady=8)
-
-    tipKa = CreateToolTip(labelKa, "Values between 0 and 255")
-    tipKd = CreateToolTip(labelKd, "Values between 0 and 255")
-    tipKs = CreateToolTip(labelKs, "Values between 0 and 255")
 
     textNumSides.trace('w', buttonObject)
     t2 = ToggledFrame(userInterface, width, height,
@@ -593,89 +514,6 @@ if __name__ == "__main__":
     labelViewportLimitsyMax.grid(row=28, column=1, padx=1, pady=1)
     txtViewportLimitsyMax.grid(row=28, column=2, padx=1, pady=1)
     btnAlterarCena.grid(row=29, column=1, padx=4, pady=8, columnspan=2)
-
-
-    t3 = ToggledFrame(userInterface, width, height,
-                      text='Lighting and Shading', relief="raised", borderwidth=1)
-    t3.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
-
-    labelIluminacao = ttk.Label(
-        t3.sub_frame, text="Illumination", font="-weight bold -size 9")
-
-    labelAmbientLight = ttk.Label(
-        t3.sub_frame, text="Ambient Light*", font="-weight bold -size 9", cursor="hand2")
-    labelIAR = ttk.Label(t3.sub_frame, text='R')
-    txtIAR = ttk.Entry(t3.sub_frame, name="iaR", width=15)
-    labelIAG = ttk.Label(t3.sub_frame, text='G')
-    txtIAG = ttk.Entry(t3.sub_frame, name="iaG", width=15)
-    labelIAB = ttk.Label(t3.sub_frame, text='B')
-    txtIAB = ttk.Entry(t3.sub_frame, name="iaB", width=15)
-
-    labelLightSource = ttk.Label(
-        t3.sub_frame, text="Light Source*", font="-weight bold -size 9", cursor="hand2")
-    labelIR = ttk.Label(t3.sub_frame, text='R')
-    txtIR = ttk.Entry(t3.sub_frame, name="iR", width=15)
-    labelIG = ttk.Label(t3.sub_frame, text='G')
-    txtIG = ttk.Entry(t3.sub_frame, name="iG", width=15)
-    labelIB = ttk.Label(t3.sub_frame, text='B')
-    txtIB = ttk.Entry(t3.sub_frame, name="iB", width=15)
-
-    labelPosLightSource = ttk.Label(
-        t3.sub_frame, text="Light Source Coordinates", font="-weight bold -size 9")
-    labelIx = ttk.Label(t3.sub_frame, text='x')
-    txtIx = ttk.Entry(t3.sub_frame, name="ix", width=15)
-    labelIy = ttk.Label(t3.sub_frame, text='y')
-    txtIy = ttk.Entry(t3.sub_frame, name="iy", width=15)
-    labelIz = ttk.Label(t3.sub_frame, text='z')
-    txtIz = ttk.Entry(t3.sub_frame, name="iz", width=15)
-
-    labelShadingType = ttk.Label(
-        t3.sub_frame, text="Shading Type", font="-weight bold -size 9")
-    rbConstant = ttk.Radiobutton(
-        t3.sub_frame, text="Constant Shading", variable=rbShading, value=0, cursor="hand2")
-    rbGouraud = ttk.Radiobutton(
-        t3.sub_frame, text="Gouraud Shading", variable=rbShading, value=1, cursor="hand2")
-    rbPhong = ttk.Radiobutton(
-        t3.sub_frame, text="Phong Shading", variable=rbShading, value=2, cursor="hand2")
-    btnAlterarIluminacao = ttk.Button(
-        t3.sub_frame, text="Change Illum/Shad", width=20, command=iluminacaoClick, cursor="hand2")
-
-    rbGouraud['state'] = tk.DISABLED
-    rbPhong['state'] = tk.DISABLED
-
-    tipAmbientLight = CreateToolTip(labelAmbientLight, "Values between 0 and 255")
-    tipLightSource = CreateToolTip(
-        labelLightSource, "Values between 0 and 255")
-
-    labelShadingType.grid(row=1, column=1, padx=12, pady=4, sticky=W)
-    rbConstant.grid(row=2, column=1, padx=25, pady=1, sticky=W)
-    rbGouraud.grid(row=3, column=1, padx=25, pady=1, sticky=W)
-    rbPhong.grid(row=4, column=1, padx=25, pady=1, sticky=W)
-
-    labelAmbientLight.grid(row=5, column=1,  padx=10, pady=2, sticky=W)
-    labelIAR.grid(row=6, column=1, padx=1, pady=1)
-    txtIAR.grid(row=6, column=2, padx=1, pady=1)
-    labelIAG.grid(row=7, column=1, padx=1, pady=1)
-    txtIAG.grid(row=7, column=2, padx=1, pady=1)
-    labelIAB.grid(row=8, column=1, padx=1, pady=1)
-    txtIAB.grid(row=8, column=2, padx=1, pady=1)
-
-    labelLightSource.grid(row=9, column=1,  padx=10, pady=2, sticky=W)
-    labelIR.grid(row=10, column=1, padx=1, pady=1)
-    txtIR.grid(row=10, column=2, padx=1, pady=1)
-    labelIG.grid(row=11, column=1, padx=1, pady=1)
-    txtIG.grid(row=11, column=2, padx=1, pady=1)
-    labelIB.grid(row=12, column=1, padx=1, pady=1)
-    txtIB.grid(row=12, column=2, padx=1, pady=1)
-    labelPosLightSource.grid(row=13, column=1, padx=10, pady=2, sticky=W)
-    labelIx.grid(row=14, column=1, padx=1, pady=1)
-    txtIx.grid(row=14, column=2, padx=1, pady=1)
-    labelIy.grid(row=15, column=1, padx=1, pady=1)
-    txtIy.grid(row=15, column=2, padx=1, pady=1)
-    labelIz.grid(row=16, column=1, padx=1, pady=1)
-    txtIz.grid(row=16, column=2, padx=1, pady=1)
-
-    btnAlterarIluminacao.grid(row=17, column=1, padx=4, pady=8, columnspan=2)
 
     buttonObject(1, 1, 1)
     ProjectionSet(drawing.GetProjection())
