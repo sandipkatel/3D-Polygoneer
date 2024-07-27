@@ -6,6 +6,7 @@ import tkinter as tk
 from tkinter import Frame, ttk, messagebox
 from tkinter.constants import W
 from frames import ToggledFrame
+from RGBSlider import RGBSliderApp
 
 
 def readRadiusButton(_, __, ___):
@@ -377,32 +378,34 @@ if __name__ == "__main__":
     btnUpdateObject = ttk.Button(
         t.sub_frame, text="Update Object", width=15, command=updateObject)
 
+    slide = RGBSliderApp()
+
     labelKa = ttk.Label(t.sub_frame, text="Ka*",
                         font="-weight bold -size 9", cursor="hand2")
-    labelKaR = ttk.Label(t.sub_frame, text='R')
+    """labelKaR = ttk.Label(t.sub_frame, text='R')
     txtKaR = ttk.Entry(t.sub_frame, name="kaR", width=15)
     labelKaG = ttk.Label(t.sub_frame, text='G')
     txtKaG = ttk.Entry(t.sub_frame, name="kaG", width=15)
     labelKaB = ttk.Label(t.sub_frame, text='B')
-    txtKaB = ttk.Entry(t.sub_frame, name="kaB", width=15)
+    txtKaB = ttk.Entry(t.sub_frame, name="kaB", width=15)"""
 
     labelKd = ttk.Label(t.sub_frame, text="Kd*",
                         font="-weight bold -size 9", cursor="hand2")
-    labelKdR = ttk.Label(t.sub_frame, text='R')
+    """labelKdR = ttk.Label(t.sub_frame, text='R')
     txtKdR = ttk.Entry(t.sub_frame, name="kdR", width=15)
     labelKdG = ttk.Label(t.sub_frame, text='G')
     txtKdG = ttk.Entry(t.sub_frame, name="kdG", width=15)
     labelKdB = ttk.Label(t.sub_frame, text='B')
-    txtKdB = ttk.Entry(t.sub_frame, name="kdB", width=15)
+    txtKdB = ttk.Entry(t.sub_frame, name="kdB", width=15)"""
 
     labelKs = ttk.Label(t.sub_frame, text="Ks*",
                         font="-weight bold -size 9", cursor="hand2")
-    labelKsR = ttk.Label(t.sub_frame, text='R')
+    """labelKsR = ttk.Label(t.sub_frame, text='R')
     txtKsR = ttk.Entry(t.sub_frame, name="ksR", width=15)
     labelKsG = ttk.Label(t.sub_frame, text='G')
     txtKsG = ttk.Entry(t.sub_frame, name="ksG", width=15)
     labelKsB = ttk.Label(t.sub_frame, text='B')
-    txtKsB = ttk.Entry(t.sub_frame, name="ksB", width=15)
+    txtKsB = ttk.Entry(t.sub_frame, name="ksB", width=15)"""
 
     labelNumSides.grid(row=1, column=1, padx=10, pady=1)
     txtNumSides.grid(row=1, column=2, padx=1, pady=1)
@@ -414,28 +417,31 @@ if __name__ == "__main__":
     txtHeight.grid(row=5, column=2, padx=1, pady=1)
 
     labelKa.grid(row=7, column=1,  padx=10, pady=2, sticky=W)
-    labelKaR.grid(row=8, column=1, padx=1, pady=1)
+    txtKaR, txtKaG, txtKaB = slide.sliders(t.sub_frame, 7, 1)
+    """labelKaR.grid(row=8, column=1, padx=1, pady=1)
     txtKaR.grid(row=8, column=2, padx=1, pady=1)
     labelKaG.grid(row=9, column=1, padx=1, pady=1)
     txtKaG.grid(row=9, column=2, padx=1, pady=1)
     labelKaB.grid(row=10, column=1, padx=1, pady=1)
-    txtKaB.grid(row=10, column=2, padx=1, pady=1)
+    txtKaB.grid(row=10, column=2, padx=1, pady=1)"""
 
     labelKd.grid(row=11, column=1,  padx=10, pady=2, sticky=W)
-    labelKdR.grid(row=12, column=1, padx=1, pady=1)
+    txtKdR, txtKdG, txtKdB = slide.sliders(t.sub_frame, 10, 1)
+    """labelKdR.grid(row=12, column=1, padx=1, pady=1)
     txtKdR.grid(row=12, column=2, padx=1, pady=1)
     labelKdG.grid(row=13, column=1, padx=1, pady=1)
     txtKdG.grid(row=13, column=2, padx=1, pady=1)
     labelKdB.grid(row=14, column=1, padx=1, pady=1)
-    txtKdB.grid(row=14, column=2, padx=1, pady=1)
+    txtKdB.grid(row=14, column=2, padx=1, pady=1)"""
 
     labelKs.grid(row=15, column=1,  padx=10, pady=2, sticky=W)
-    labelKsR.grid(row=16, column=1, padx=1, pady=1)
+    txtKsR, txtKsG, txtKsB = slide.sliders(t.sub_frame, 14, 1)
+    """labelKsR.grid(row=16, column=1, padx=1, pady=1)
     txtKsR.grid(row=16, column=2, padx=1, pady=1)
     labelKsG.grid(row=17, column=1, padx=1, pady=1)
     txtKsG.grid(row=17, column=2, padx=1, pady=1)
     labelKsB.grid(row=18, column=1, padx=1, pady=1)
-    txtKsB.grid(row=18, column=2, padx=1, pady=1)
+    txtKsB.grid(row=18, column=2, padx=1, pady=1)"""
 
     btnCreateObject.grid(row=19, column=1, padx=4, pady=8)
     btnUpdateObject.grid(row=19, column=2, padx=4, pady=8)
