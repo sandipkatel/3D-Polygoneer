@@ -7,7 +7,7 @@ class Transformation:
     scaleMoreValue = 1.111111
     rotationValue = 5
 
-    def move_x_left(self, event, drawing):
+    """def move_x_left(self, event, drawing):
         if drawing.objectSelected is not None:
             drawing.moveObject(-self.translationValue, 0, 0)
             SendUI(drawing.GetAttributes())
@@ -25,6 +25,16 @@ class Transformation:
     def move_z_back(self, event, drawing):
         if drawing.objectSelected is not None:
             drawing.moveObject(0, 0, -self.translationValue)
+            SendUI(drawing.GetAttributes())"""
+
+    def move_x_left(self, event, drawing):
+        if drawing.objectSelected is not None:
+            drawing.moveObject(-self.translationValue, 0, self.translationValue)
+            SendUI(drawing.GetAttributes())
+
+    def move_x_right(self, event, drawing):
+        if drawing.objectSelected is not None:
+            drawing.moveObject(self.translationValue, 0, -self.translationValue)
             SendUI(drawing.GetAttributes())
 
     def move_y_up(self, event, drawing):

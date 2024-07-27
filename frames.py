@@ -85,9 +85,6 @@ class ToggledFrame(tk.Frame):
         if (text == "Projection"):
             self.sub_frame = VerticalScrolledFrame(
                 self, width, height, borderwidth=1, janela=1, relief=tk.SUNKEN)
-        if (text == "Lighting and Shading"):
-            self.sub_frame = VerticalScrolledFrame(
-                self, width, height, borderwidth=1, janela=2, relief=tk.SUNKEN)
 
     def toggle(self):
         if bool(self.show.get()):

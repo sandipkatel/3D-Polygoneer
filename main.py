@@ -35,6 +35,7 @@ def buttonObject(_, __, ___):
 
 def ClearScreen():
     drawing.ClearAll()
+    clearObjectInfo()
 
 
 def SendUI(values):
@@ -78,7 +79,7 @@ def clearObjectInfo():
 
 
 def SelectingObject(event):
-    if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "object":
+    #if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "object":
         object = drawing.ObjectSelection(
             drawing.canvas.find_withtag("current")[0])
         SendUI(drawing.GetAttributes())
@@ -86,15 +87,15 @@ def SelectingObject(event):
         txtHeight['state'] = tk.DISABLED
         txtBaseRadius['state'] = tk.DISABLED
         txtTopRadius['state'] = tk.DISABLED
-    else:
+    #else:
         drawing.objectSelected = None
         txtNumSides['state'] = tk.NORMAL
         txtHeight['state'] = tk.NORMAL
         txtBaseRadius['state'] = tk.NORMAL
         txtTopRadius['state'] = tk.NORMAL
-        clearObjectInfo()
-    drawing.Draw()
-    buttonObject(0, 0, 0)
+        #clearObjectInfo()
+        drawing.Draw()
+        buttonObject(0, 0, 0)
 
 
 def updateObject():
@@ -270,83 +271,42 @@ if __name__ == "__main__":
     txtIntegrantes = ttk.Label(
         window, text='"Developed by: Sandip Katel, Saphal Rimal, Sharad Pokharel, and Sijan Joshi')
     txtIntegrantes.place(x=10,  y=int(height * 0.89))
-
-    drawing.canvas.bind('<Button-1>', SelectingObject)
-
-    t1 = Transformation()
-
-    drawing.canvas.bind_all(
-        '<q>', lambda event: t1.move_x_left(event, drawing))
-    drawing.canvas.bind_all(
-        '<a>', lambda event: t1.move_x_right(event, drawing))
-    drawing.canvas.bind_all(
-        '<w>', lambda event: t1.move_z_front(event, drawing))
-    drawing.canvas.bind_all(
-        '<s>', lambda event: t1.move_z_back(event, drawing))
-    drawing.canvas.bind_all('<e>', lambda event: t1.move_y_up(event, drawing))
-    drawing.canvas.bind_all(
-        '<d>', lambda event: t1.move_y_down(event, drawing))
-
-    drawing.canvas.bind_all(
-        '<r>', lambda event: t1.scale_x_less(event, drawing))
-    drawing.canvas.bind_all(
-        '<f>', lambda event: t1.scale_x_more(event, drawing))
-    drawing.canvas.bind_all(
-        '<t>', lambda event: t1.scale_z_less(event, drawing))
-    drawing.canvas.bind_all(
-        '<g>', lambda event: t1.scale_z_more(event, drawing))
-    drawing.canvas.bind_all(
-        '<y>', lambda event: t1.scale_y_less(event, drawing))
-    drawing.canvas.bind_all(
-        '<h>', lambda event: t1.scale_y_more(event, drawing))
-
-    drawing.canvas.bind_all('<u>', lambda event: t1.rot_x_left(event, drawing))
-    drawing.canvas.bind_all(
-        '<j>', lambda event: t1.rot_x_right(event, drawing))
-    drawing.canvas.bind_all(
-        '<i>', lambda event: t1.rot_z_front(event, drawing))
-    drawing.canvas.bind_all('<k>', lambda event: t1.rot_z_back(event, drawing))
-    drawing.canvas.bind_all('<o>', lambda event: t1.rot_y_up(event, drawing))
-    drawing.canvas.bind_all('<l>', lambda event: t1.rot_y_down(event, drawing))
-
+    
     rbProjection = tk.IntVar()
     rbProjection.set(0)
-    rbShading = tk.IntVar()
-    rbShading.set(0)
     textNumSides = tk.StringVar()
     textNumSides.set("")
 
-    t = ToggledFrame(userInterface, width, height,
+    t1 = ToggledFrame(userInterface, width, height,
                      text='Object Information', relief="raised", borderwidth=1)
-    t.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
+    t1.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
 
-    labelBaseRadius = ttk.Label(t.sub_frame, text='Base Radius')
-    txtBaseRadius = ttk.Entry(t.sub_frame, name="txtBaseRadius", width=15)
-    labelTopRadius = ttk.Label(t.sub_frame, text='Top Radius')
-    txtTopRadius = ttk.Entry(t.sub_frame, name="txtTopRadius", width=15)
-    labelNumSides = ttk.Label(t.sub_frame, text='Number of Sides')
-    txtNumSides = ttk.Entry(t.sub_frame, name="txtNumSides",
-                            width=15, textvariable=textNumSides)
-    labelHeight = ttk.Label(t.sub_frame, text='Height')
-    txtHeight = ttk.Entry(t.sub_frame, name="txtHeight", width=15)
+    labelBaseRadius = ttk.Label(t1.sub_frame, text='Base Radius')
+    txtBaseRadius = ttk.Entry(t1.sub_frame, name="txtBaseRadius", width=15)
+    labelTopRadius = ttk.Label(t1.sub_frame, text='Top Radius')
+    txtTopRadius = ttk.Entry(t1.sub_frame, name="txtTopRadius", width=15)
+    labelNumSides = ttk.Label(t1.sub_frame, text='Number of Sides')
+    txtNumSides = ttk.Entry(t1.sub_frame, name="txtNumSides", width=15, textvariable=textNumSides)
+    labelHeight = ttk.Label(t1.sub_frame, text='Height')
+    txtHeight = ttk.Entry(t1.sub_frame, name="txtHeight", width=15)
     btnCreateObject = ttk.Button(
-        t.sub_frame, text="Create Object", width=15, command=objectClick)
+       t1.sub_frame, text="Create Object", width=15, command=objectClick)
     btnUpdateObject = ttk.Button(
-        t.sub_frame, text="Update Object", width=15, command=updateObject)
+       t1.sub_frame, text="Update Object", width=15, command=updateObject)
 
     slideKa = RGBSliderApp()
     slideKs = RGBSliderApp()
     slideKd = RGBSliderApp()
 
-    labelKa = ttk.Label(t.sub_frame, text="Ka*",
+    labelKa = ttk.Label(t1.sub_frame, text="Ka*",
                         font="-weight bold -size 9", cursor="hand2")
     # Ka (Ambient Reflectivity): This represents the material's response to ambient light. Ambient light is scattered in all directions and does not come from a specific source. Ka defines how much ambient light is reflected by the surface.
 
-    labelKd = ttk.Label(t.sub_frame, text="Kd*",
+    labelKd = ttk.Label(t1.sub_frame, text="Kd*",
                         font="-weight bold -size 9", cursor="hand2")
     # Kd (Diffuse Reflectivity): This represents the material's response to diffuse light. Diffuse light comes from a specific direction and is scattered evenly across the surface. Kd defines how much diffuse light is reflected by the surface.
 
-    labelKs = ttk.Label(t.sub_frame, text="Ks*",
+    labelKs = ttk.Label(t1.sub_frame, text="Ks*",
                         font="-weight bold -size 9", cursor="hand2")
     # Ks (Specular Reflectivity): This represents the material's response to specular light. Specular light creates highlights and comes from a specific direction. Ks defines how much specular light is reflected by the surface.
 
@@ -360,13 +320,13 @@ if __name__ == "__main__":
     txtHeight.grid(row=5, column=2, padx=1, pady=1)
 
     labelKa.grid(row=7, column=1,  padx=10, pady=2, sticky=W)
-    txtKaR, txtKaG, txtKaB = slideKa.sliders(t.sub_frame, 7, 1)
+    txtKaR, txtKaG, txtKaB = slideKa.sliders(t1.sub_frame, 7, 1)
 
     labelKd.grid(row=11, column=1,  padx=10, pady=2, sticky=W)
-    txtKdR, txtKdG, txtKdB = slideKd.sliders(t.sub_frame, 10, 1)
+    txtKdR, txtKdG, txtKdB = slideKd.sliders(t1.sub_frame, 10, 1)
 
     labelKs.grid(row=15, column=1,  padx=10, pady=2, sticky=W)
-    txtKsR, txtKsG, txtKsB = slideKs.sliders(t.sub_frame, 14, 1)
+    txtKsR, txtKsG, txtKsB = slideKs.sliders(t1.sub_frame, 14, 1)
 
     btnCreateObject.grid(row=19, column=1, padx=4, pady=8)
     btnUpdateObject.grid(row=19, column=2, padx=4, pady=8)
@@ -521,6 +481,52 @@ if __name__ == "__main__":
     txtPx['state'] = tk.DISABLED
     txtPy['state'] = tk.DISABLED
     txtPz['state'] = tk.DISABLED
+
+    drawing.canvas.bind('<Button-1>', SelectingObject)
+
+    trans = Transformation()
+
+    # Shortcut for translation
+    """drawing.canvas.bind_all(
+        '<q>', lambda event: trans.move_z_front(event, drawing))
+    drawing.canvas.bind_all(
+        '<a>', lambda event: trans.move_z_back(event, drawing))"""
+    drawing.canvas.bind_all(
+        '<w>', lambda event: trans.move_x_left(event, drawing))
+    drawing.canvas.bind_all(
+        '<s>', lambda event: trans.move_x_right(event, drawing))
+    drawing.canvas.bind_all(
+        '<e>', lambda event: trans.move_y_up(event, drawing))
+    drawing.canvas.bind_all(
+        '<d>', lambda event: trans.move_y_down(event, drawing))
+
+    # Shortcut for scaling
+    drawing.canvas.bind_all(
+        '<r>', lambda event: trans.scale_x_less(event, drawing))
+    drawing.canvas.bind_all(
+        '<f>', lambda event: trans.scale_x_more(event, drawing))
+    drawing.canvas.bind_all(
+        '<t>', lambda event: trans.scale_z_less(event, drawing))
+    drawing.canvas.bind_all(
+        '<g>', lambda event: trans.scale_z_more(event, drawing))
+    drawing.canvas.bind_all(
+        '<y>', lambda event: trans.scale_y_less(event, drawing))
+    drawing.canvas.bind_all(
+        '<h>', lambda event: trans.scale_y_more(event, drawing))
+
+    # Shortcut for rotating
+    drawing.canvas.bind_all(
+        '<u>', lambda event: trans.rot_x_left(event, drawing))
+    drawing.canvas.bind_all(
+        '<j>', lambda event: trans.rot_x_right(event, drawing))
+    drawing.canvas.bind_all(
+        '<i>', lambda event: trans.rot_z_front(event, drawing))
+    drawing.canvas.bind_all(
+        '<k>', lambda event: trans.rot_z_back(event, drawing))
+    drawing.canvas.bind_all(
+        '<o>', lambda event: trans.rot_y_up(event, drawing))
+    drawing.canvas.bind_all(
+        '<l>', lambda event: trans.rot_y_down(event, drawing))
 
     axisX = ttk.Label(frameDrawingInterface, text="X",
                       foreground="#FF0000", background="#CCCCCC")
