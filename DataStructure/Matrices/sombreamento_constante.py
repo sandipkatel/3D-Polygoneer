@@ -1,13 +1,13 @@
 import numpy as np
 
-def sombreamento_constante(face_list, normals_list, VRP, ka, kd, ks, n, il, ila, fonte_luz):
+def sombreamento_constante(face_list, normals_list, VRP, ka, kd, ks, il, ila, fonte_luz):
     avg_list = [np.average(face, axis=1)[:3] for face in face_list]
     Ia = [ila[i]*ka[i]/255 for i in range(3)]
-    color_list = [sombreamento_single_face(avg_list[face_idx], normals_list[face_idx], Ia, kd, ks, n, il, fonte_luz, VRP) for face_idx in range(len(face_list))]
+    color_list = [sombreamento_single_face(avg_list[face_idx], normals_list[face_idx], Ia, kd, ks, il, fonte_luz, VRP) for face_idx in range(len(face_list))]
 
     return color_list
 
-def sombreamento_single_face(centroid, N, Ia, kd, ks, n, il, fonte_luz, VRP):
+def sombreamento_single_face(centroid, N, Ia, kd, ks, il, fonte_luz, VRP):
     L = fonte_luz-centroid
     L_normalized = L/(np.linalg.norm(L))
     N_dot_L = np.dot(N,L_normalized)
@@ -18,9 +18,6 @@ def sombreamento_single_face(centroid, N, Ia, kd, ks, n, il, fonte_luz, VRP):
     S_normalized = S/(np.linalg.norm(S))
     R_dot_S = np.dot(R,S_normalized)
     has_specular = R_dot_S>0
-    
-    if has_specular:
-        R_dot_S_pow_n = R_dot_S**n
 
     face_color = "#"
 
@@ -30,7 +27,7 @@ def sombreamento_single_face(centroid, N, Ia, kd, ks, n, il, fonte_luz, VRP):
         else:
             Id = 0
         if has_specular:
-            Is = il[color]*ks[color]*R_dot_S_pow_n/255
+            Is = il[color]*ks[color]*R_dot_S/255
         else:
             Is = 0
 

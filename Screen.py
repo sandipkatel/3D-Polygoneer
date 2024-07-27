@@ -100,7 +100,6 @@ class Screen():
         list.append(self.objects[self.objectSelected].r_bottom)
         list.append(self.objects[self.objectSelected].r_top)
         list.append(self.objects[self.objectSelected].height)
-        list.append(self.objects[self.objectSelected].n)
         list.append(self.objects[self.objectSelected].ka[0])
         list.append(self.objects[self.objectSelected].ka[1])
         list.append(self.objects[self.objectSelected].ka[2])
@@ -275,8 +274,8 @@ class Screen():
             self.objects[self.objectSelected].FacesOrder()
             self.Draw()
 
-    def AddObjects(self, r_bottom, r_top, sides, h, ka, kd, ks, n):
-        new_obj = Object(0, 0, 0, h, r_bottom, r_top, sides, ka, kd, ks, n) 
+    def AddObjects(self, r_bottom, r_top, sides, h, ka, kd, ks):
+        new_obj = Object(0, 0, 0, h, r_bottom, r_top, sides, ka, kd, ks) 
         new_obj.normalVisualizationTest(self.n)
         new_obj.pipeline_me(self.SRC, self.jp_times_proj, self.nearValue, self.farValue)
         new_obj.crop_to_screen(self.projecaoXmin, self.projecaoXmax, self.projecaoYmin, self.projecaoYmax)
@@ -287,11 +286,10 @@ class Screen():
         self.numberObjects += 1
         self.Draw()
     
-    def UpdateObject(self, ka, kd, ks, n):
+    def UpdateObject(self, ka, kd, ks):
         self.objects[self.objectSelected].ka = ka 
         self.objects[self.objectSelected].kd = kd 
         self.objects[self.objectSelected].ks = ks 
-        self.objects[self.objectSelected].n = n
         self.objects[self.objectSelected].sombreamento_constante(self.VRP, self.il, self.ila, self.fonteLuz)
         self.Draw()
 

@@ -346,7 +346,16 @@ healthchecksdb
 # Backup folder for Package Reference Convert tool in Visual Studio 2017
 MigrationBackup/
 
-# Ionide (cross platform F# VS Code tools) working folder
+# Ignore (cross platform F# VS Code tools) working folder
 .ionide/
 .vscode/settings.json
 .vscode/launch.json
+
+# Test files
+test.py
+test*.py
+tempCodeRunnerFile.py
+slider.py
+
+# ttf files
+arial.ttf

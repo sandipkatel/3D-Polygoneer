@@ -83,7 +83,7 @@ def clearObjectInfo():
 
 
 def SelectingObject(event):
-    if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "objeto":
+    if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "object":
         object = drawing.ObjectSelection(
             drawing.canvas.find_withtag("current")[0])
         SendUI(drawing.GetAttributes())
@@ -103,36 +103,36 @@ def SelectingObject(event):
 
 
 def updateObject():
-    kaR = isVazio(txtKaR.get())
-    kaG = isVazio(txtKaG.get())
-    kaB = isVazio(txtKaB.get())
-    kdR = isVazio(txtKdR.get())
-    kdG = isVazio(txtKdG.get())
-    kdB = isVazio(txtKdB.get())
-    ksR = isVazio(txtKsR.get())
-    ksG = isVazio(txtKsG.get())
-    ksB = isVazio(txtKsB.get())
+    kaR = isEmpty(txtKaR.get())
+    kaG = isEmpty(txtKaG.get())
+    kaB = isEmpty(txtKaB.get())
+    kdR = isEmpty(txtKdR.get())
+    kdG = isEmpty(txtKdG.get())
+    kdB = isEmpty(txtKdB.get())
+    ksR = isEmpty(txtKsR.get())
+    ksG = isEmpty(txtKsG.get())
+    ksB = isEmpty(txtKsB.get())
 
     ka = [kaR, kaG, kaB]
     kd = [kdR, kdG, kdB]
     ks = [ksR, ksG, ksB]
-    drawing.UpdateObject(ka, kd, ks, n)
+    drawing.UpdateObject(ka, kd, ks)
 
 
 def objectClick():
-    NumSides = int(isVazio(txtNumSides.get()))
-    Height = isVazio(txtHeight.get())
-    BaseRadius = isVazio(txtBaseRadius.get())
-    TopRadius = isVazio(txtTopRadius.get())
-    kaR = isVazio(txtKaR.get())
-    kaG = isVazio(txtKaG.get())
-    kaB = isVazio(txtKaB.get())
-    kdR = isVazio(txtKdR.get())
-    kdG = isVazio(txtKdG.get())
-    kdB = isVazio(txtKdB.get())
-    ksR = isVazio(txtKsR.get())
-    ksG = isVazio(txtKsG.get())
-    ksB = isVazio(txtKsB.get())
+    NumSides = int(isEmpty(txtNumSides.get()))
+    Height = isEmpty(txtHeight.get())
+    BaseRadius = isEmpty(txtBaseRadius.get())
+    TopRadius = isEmpty(txtTopRadius.get())
+    kaR = isEmpty(txtKaR.get())
+    kaG = isEmpty(txtKaG.get())
+    kaB = isEmpty(txtKaB.get())
+    kdR = isEmpty(txtKdR.get())
+    kdG = isEmpty(txtKdG.get())
+    kdB = isEmpty(txtKdB.get())
+    ksR = isEmpty(txtKsR.get())
+    ksG = isEmpty(txtKsG.get())
+    ksB = isEmpty(txtKsB.get())
 
     if (NumSides == -1):
         messagebox.showerror("Error", "Fill in all fields!")
@@ -150,7 +150,7 @@ def objectClick():
     kd = [kdR, kdG, kdB]
     ks = [ksR, ksG, ksB]
 
-    drawing.AddObjects(BaseRadius, TopRadius, NumSides, Height, ka, kd, ks, n)
+    drawing.AddObjects(BaseRadius, TopRadius, NumSides, Height, ka, kd, ks)
     clearObjectInfo()
 
 
@@ -218,26 +218,26 @@ def ProjectionSet(values):
 def ProjectionClick():
     # rbProjection = 0 -> perspectiva; rbProjection = 1 -> axonometrica
     Projection = bool(int(rbProjection.get()))
-    vrpX = isVazio(txtVRPx.get())
-    vrpY = isVazio(txtVRPy.get())
-    vrpZ = isVazio(txtVRPz.get())
-    pX = isVazio(txtPx.get())
-    pY = isVazio(txtPy.get())
-    pZ = isVazio(txtPz.get())
-    viewUpX = isVazio(txtViewUpx.get())
-    viewUpY = isVazio(txtViewUpy.get())
-    viewUpZ = isVazio(txtViewUpz.get())
-    near = isVazio(txtNear.get())
-    far = isVazio(txtFar.get())
-    planoProj = isVazio(txtProjectionPlane.get())
-    mundoxMin = isVazio(txtWorldLimitsxMin.get())
-    mundoxMax = isVazio(txtWorldLimitsxMax.get())
-    mundoyMin = isVazio(txtWorldLimitsyMin.get())
-    mundoyMax = isVazio(txtWorldLimitsyMax.get())
-    planoProjxMin = isVazio(txtViewportLimitsxMin.get())
-    planoProjxMax = isVazio(txtViewportLimitsxMax.get())
-    planoProjyMin = isVazio(txtViewportLimitsyMin.get())
-    planoProjyMax = isVazio(txtViewportLimitsyMax.get())
+    vrpX = isEmpty(txtVRPx.get())
+    vrpY = isEmpty(txtVRPy.get())
+    vrpZ = isEmpty(txtVRPz.get())
+    pX = isEmpty(txtPx.get())
+    pY = isEmpty(txtPy.get())
+    pZ = isEmpty(txtPz.get())
+    viewUpX = isEmpty(txtViewUpx.get())
+    viewUpY = isEmpty(txtViewUpy.get())
+    viewUpZ = isEmpty(txtViewUpz.get())
+    near = isEmpty(txtNear.get())
+    far = isEmpty(txtFar.get())
+    planoProj = isEmpty(txtProjectionPlane.get())
+    mundoxMin = isEmpty(txtWorldLimitsxMin.get())
+    mundoxMax = isEmpty(txtWorldLimitsxMax.get())
+    mundoyMin = isEmpty(txtWorldLimitsyMin.get())
+    mundoyMax = isEmpty(txtWorldLimitsyMax.get())
+    planoProjxMin = isEmpty(txtViewportLimitsxMin.get())
+    planoProjxMax = isEmpty(txtViewportLimitsxMax.get())
+    planoProjyMin = isEmpty(txtViewportLimitsyMin.get())
+    planoProjyMax = isEmpty(txtViewportLimitsyMax.get())
 
     drawing.RedoPipeline(Projection, vrpX, vrpY, vrpZ, pX, pY, pZ, viewUpX, viewUpY, viewUpZ, near, far, planoProj,
                          mundoxMin, mundoxMax, mundoyMin, mundoyMax, planoProjxMin, planoProjxMax, planoProjyMin, planoProjyMax)
@@ -249,15 +249,15 @@ def ProjectionClick():
 def iluminacaoClick():
     # Shading = 0 -> Constant; Shading = 1 -> gourad; Shading = 2 -> phong
     Shading = int(rbShading.get())
-    iaR = isVazio(txtIAR.get())
-    iaG = isVazio(txtIAG.get())
-    iaB = isVazio(txtIAB.get())
-    iR = isVazio(txtIR.get())
-    iG = isVazio(txtIG.get())
-    iB = isVazio(txtIB.get())
-    iX = isVazio(txtIx.get())
-    iY = isVazio(txtIy.get())
-    iZ = isVazio(txtIz.get())
+    iaR = isEmpty(txtIAR.get())
+    iaG = isEmpty(txtIAG.get())
+    iaB = isEmpty(txtIAB.get())
+    iR = isEmpty(txtIR.get())
+    iG = isEmpty(txtIG.get())
+    iB = isEmpty(txtIB.get())
+    iX = isEmpty(txtIx.get())
+    iY = isEmpty(txtIy.get())
+    iZ = isEmpty(txtIz.get())
 
     ila = [iaR, iaG, iaB]
     il = [iR, iG, iB]
@@ -266,7 +266,7 @@ def iluminacaoClick():
     drawing.ChangeIlumination(Shading, ila, il, fonteLuz)
 
 
-def isVazio(string):
+def isEmpty(string):
     if (string == ""):
         return -1
     return float(string)
@@ -588,7 +588,6 @@ if __name__ == "__main__":
     txtViewportLimitsyMax.grid(row=28, column=2, padx=1, pady=1)
     btnAlterarCena.grid(row=29, column=1, padx=4, pady=8, columnspan=2)
 
-    rbProjection.trace('w', readRadiusButton)
 
     t3 = ToggledFrame(userInterface, width, height,
                       text='Lighting and Shading', relief="raised", borderwidth=1)
