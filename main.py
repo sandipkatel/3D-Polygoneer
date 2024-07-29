@@ -1,6 +1,5 @@
 
 from tooltip import CreateToolTip
-import numpy as np
 from Screen import Screen
 import tkinter as tk
 from tkinter import Frame, ttk, messagebox
@@ -39,33 +38,29 @@ def ClearScreen():
 
 
 def SendUI(values):
-    txtNumSides.delete(0, tk.END)
-    txtNumSides.insert(0, str(values[0]))
-    txtBaseRadius.delete(0, tk.END)
-    txtBaseRadius.insert(0, str(values[1]))
-    txtTopRadius.delete(0, tk.END)
-    txtTopRadius.insert(0, str(values[2]))
-    txtHeight.delete(0, tk.END)
-    txtHeight.insert(0, str(values[3]))
+    # txtNumSides.delete(0, tk.END)
+    # txtNumSides.insert(0, str(values[0]))
+    # txtBaseRadius.delete(0, tk.END)
+    # txtBaseRadius.insert(0, str(values[1]))
+    # txtTopRadius.delete(0, tk.END)
+    # txtTopRadius.insert(0, str(values[2]))
+    # txtHeight.delete(0, tk.END)
+    # txtHeight.insert(0, str(values[3]))
 
-    txtKaR.reset()
-    txtKaR.set(values[5])
-    txtKaG.reset()
-    txtKaG.set(values[6])
-    txtKaB.reset()
-    txtKaB.set(values[7])
-    txtKdR.reset()
-    txtKdR.set(values[8])
-    txtKdG.reset()
-    txtKdG.set(values[9])
-    txtKdB.reset()
-    txtKdB.set(values[10])
-    txtKsR.reset()
-    txtKsR.set(values[11])
-    txtKsG.reset()
-    txtKsG.set(values[12])
-    txtKsB.reset()
-    txtKsB.set(values[13])
+    # slideKa.reset()
+    # slideKs.reset()
+    # slideKd.reset()
+    
+    # txtKaR.set(values[5])
+    # txtKaG.set(values[6])
+    # txtKaB.set(values[7])
+    # txtKdR.set(values[8])
+    # txtKdG.set(values[9])
+    # txtKdB.set(values[10])
+    # txtKsR.set(values[11])
+    # txtKsG.set(values[12])
+    # txtKsB.set(values[13])
+    pass
 
 
 def clearObjectInfo():
@@ -79,23 +74,25 @@ def clearObjectInfo():
 
 
 def SelectingObject(event):
-    #if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "object":
-        object = drawing.ObjectSelection(
+    if drawing.canvas.find_withtag("current") and event.widget.gettags("current")[0] == "object":
+        drawing.ObjectSelection(
             drawing.canvas.find_withtag("current")[0])
         SendUI(drawing.GetAttributes())
         txtNumSides['state'] = tk.DISABLED
         txtHeight['state'] = tk.DISABLED
         txtBaseRadius['state'] = tk.DISABLED
         txtTopRadius['state'] = tk.DISABLED
-    #else:
+    
+    
+    else:
         drawing.objectSelected = None
         txtNumSides['state'] = tk.NORMAL
         txtHeight['state'] = tk.NORMAL
         txtBaseRadius['state'] = tk.NORMAL
         txtTopRadius['state'] = tk.NORMAL
-        #clearObjectInfo()
-        drawing.Draw()
-        buttonObject(0, 0, 0)
+    # clearObjectInfo()
+    drawing.Draw()
+    buttonObject(0, 0, 0)
 
 
 def updateObject():
@@ -135,7 +132,7 @@ def objectClick():
         return 0
 
     if (int(Height) == -1 or int(BaseRadius) == -1 or int(TopRadius) == -1 or int(kaR) == -1 or int(kaG) == -1 or
-    int(kaB) == -1 or int(kdR) == -1 or int(kdG) == -1 or int(kdB) == -1 or int(ksR) == -1 or int(ksG) == -1 or int(ksB) == -1):
+            int(kaB) == -1 or int(kdR) == -1 or int(kdG) == -1 or int(kdB) == -1 or int(ksR) == -1 or int(ksG) == -1 or int(ksB) == -1):
         messagebox.showerror("Error", "Fill in all fields!")
         return 0
 
@@ -147,7 +144,7 @@ def objectClick():
     ks = [ksR, ksG, ksB]
 
     drawing.AddObjects(BaseRadius, TopRadius, NumSides, Height, ka, kd, ks)
-    #clearObjectInfo()
+    # clearObjectInfo()
 
 
 def ProjectionSet(values):
@@ -265,20 +262,20 @@ if __name__ == "__main__":
     drawing.canvas.pack()
 
     btnClear = ttk.Button(window, text="Clear", width=15,
-                           command=ClearScreen, cursor="hand2")
+                          command=ClearScreen, cursor="hand2")
     btnClear.place(x=width-(410+width*0.01), y=int(height * 0.88))
 
     txtIntegrantes = ttk.Label(
         window, text='"Developed by: Sandip Katel, Saphal Rimal, Sharad Pokharel, and Sijan Joshi')
     txtIntegrantes.place(x=10,  y=int(height * 0.89))
-    
+
     rbProjection = tk.IntVar()
     rbProjection.set(0)
     textNumSides = tk.StringVar()
     textNumSides.set("")
 
     t1 = ToggledFrame(userInterface, width, height,
-                     text='Object Information', relief="raised", borderwidth=1)
+                      text='Object Information', relief="raised", borderwidth=1)
     t1.pack(fill="x", expand=1, pady=2, padx=2, anchor="n")
 
     labelBaseRadius = ttk.Label(t1.sub_frame, text='Base Radius')
@@ -286,13 +283,14 @@ if __name__ == "__main__":
     labelTopRadius = ttk.Label(t1.sub_frame, text='Top Radius')
     txtTopRadius = ttk.Entry(t1.sub_frame, name="txtTopRadius", width=15)
     labelNumSides = ttk.Label(t1.sub_frame, text='Number of Sides')
-    txtNumSides = ttk.Entry(t1.sub_frame, name="txtNumSides", width=15, textvariable=textNumSides)
+    txtNumSides = ttk.Entry(t1.sub_frame, name="txtNumSides",
+                            width=15, textvariable=textNumSides)
     labelHeight = ttk.Label(t1.sub_frame, text='Height')
     txtHeight = ttk.Entry(t1.sub_frame, name="txtHeight", width=15)
     btnCreateObject = ttk.Button(
-       t1.sub_frame, text="Create Object", width=15, command=objectClick)
+        t1.sub_frame, text="Create Object", width=15, command=objectClick)
     btnUpdateObject = ttk.Button(
-       t1.sub_frame, text="Update Object", width=15, command=updateObject)
+        t1.sub_frame, text="Update Object", width=15, command=updateObject)
 
     slideKa = RGBSliderApp()
     slideKs = RGBSliderApp()
@@ -382,13 +380,17 @@ if __name__ == "__main__":
     labelWorldLimits = ttk.Label(
         t2.sub_frame, text="Window Limits", font="-weight bold -size 9")
     labelWorldLimitsxMin = ttk.Label(t2.sub_frame, text="X min")
-    txtWorldLimitsxMin = ttk.Entry(t2.sub_frame, name="txtWorldLimitsxMin", width=15)
+    txtWorldLimitsxMin = ttk.Entry(
+        t2.sub_frame, name="txtWorldLimitsxMin", width=15)
     labelWorldLimitsxMax = ttk.Label(t2.sub_frame, text="X max")
-    txtWorldLimitsxMax = ttk.Entry(t2.sub_frame, name="txtWorldLimitsxMax", width=15)
+    txtWorldLimitsxMax = ttk.Entry(
+        t2.sub_frame, name="txtWorldLimitsxMax", width=15)
     labelWorldLimitsyMin = ttk.Label(t2.sub_frame, text="Y min")
-    txtWorldLimitsyMin = ttk.Entry(t2.sub_frame, name="txtWorldLimitsyMin", width=15)
+    txtWorldLimitsyMin = ttk.Entry(
+        t2.sub_frame, name="txtWorldLimitsyMin", width=15)
     labelWorldLimitsyMax = ttk.Label(t2.sub_frame, text="Y max")
-    txtWorldLimitsyMax = ttk.Entry(t2.sub_frame, name="txtWorldLimitsyMax", width=15)
+    txtWorldLimitsyMax = ttk.Entry(
+        t2.sub_frame, name="txtWorldLimitsyMax", width=15)
 
     labelViewportLimits = ttk.Label(
         t2.sub_frame, text="Viewport Limits", font="-weight bold -size 9")
@@ -492,13 +494,13 @@ if __name__ == "__main__":
     drawing.canvas.bind_all(
         '<a>', lambda event: trans.move_z_back(event, drawing))"""
     drawing.canvas.bind_all(
-        '<w>', lambda event: trans.move_x_left(event, drawing))
+        '<a>', lambda event: trans.move_x_left(event, drawing))
     drawing.canvas.bind_all(
-        '<s>', lambda event: trans.move_x_right(event, drawing))
+        '<d>', lambda event: trans.move_x_right(event, drawing))
     drawing.canvas.bind_all(
-        '<e>', lambda event: trans.move_y_up(event, drawing))
+        '<w>', lambda event: trans.move_y_up(event, drawing))
     drawing.canvas.bind_all(
-        '<d>', lambda event: trans.move_y_down(event, drawing))
+        '<s>', lambda event: trans.move_y_down(event, drawing))
 
     # Shortcut for scaling
     drawing.canvas.bind_all(
