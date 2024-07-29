@@ -6,7 +6,7 @@ import tkinter as tk
 from tkinter import Frame, ttk, messagebox
 from tkinter.constants import W
 from frames import ToggledFrame
-from RGBSlider import RGBSliderApp
+from RGBSLider import RGBSliderApp
 
 
 """def readRadiusButton(_, __, ___):
@@ -39,33 +39,34 @@ def ClearScreen():
 
 
 def SendUI(values):
-    txtNumSides.delete(0, tk.END)
-    txtNumSides.insert(0, str(values[0]))
-    txtBaseRadius.delete(0, tk.END)
-    txtBaseRadius.insert(0, str(values[1]))
-    txtTopRadius.delete(0, tk.END)
-    txtTopRadius.insert(0, str(values[2]))
-    txtHeight.delete(0, tk.END)
-    txtHeight.insert(0, str(values[3]))
+    pass
+    # txtNumSides.delete(0, tk.END)
+    # txtNumSides.insert(0, str(values[0]))
+    # txtBaseRadius.delete(0, tk.END)
+    # txtBaseRadius.insert(0, str(values[1]))
+    # txtTopRadius.delete(0, tk.END)
+    # txtTopRadius.insert(0, str(values[2]))
+    # txtHeight.delete(0, tk.END)
+    # txtHeight.insert(0, str(values[3]))
 
-    txtKaR.reset()
-    txtKaR.set(values[5])
-    txtKaG.reset()
-    txtKaG.set(values[6])
-    txtKaB.reset()
-    txtKaB.set(values[7])
-    txtKdR.reset()
-    txtKdR.set(values[8])
-    txtKdG.reset()
-    txtKdG.set(values[9])
-    txtKdB.reset()
-    txtKdB.set(values[10])
-    txtKsR.reset()
-    txtKsR.set(values[11])
-    txtKsG.reset()
-    txtKsG.set(values[12])
-    txtKsB.reset()
-    txtKsB.set(values[13])
+    # txtKaR.reset()
+    # txtKaR.set(values[5])
+    # txtKaG.reset()
+    # txtKaG.set(values[6])
+    # txtKaB.reset()
+    # txtKaB.set(values[7])
+    # txtKdR.reset()
+    # txtKdR.set(values[8])
+    # txtKdG.reset()
+    # txtKdG.set(values[9])
+    # txtKdB.reset()
+    # txtKdB.set(values[10])
+    # txtKsR.reset()
+    # txtKsR.set(values[11])
+    # txtKsG.reset()
+    # txtKsG.set(values[12])
+    # txtKsB.reset()
+    # txtKsB.set(values[13])
 
 
 def clearObjectInfo():
@@ -157,24 +158,24 @@ def ProjectionSet(values):
     txtVRPy.insert(0, str(values[1]))
     txtVRPz.delete(0, tk.END)
     txtVRPz.insert(0, str(values[2]))
-    txtPx.delete(0, tk.END)
-    txtPx.insert(0, str(values[3]))
-    txtPy.delete(0, tk.END)
-    txtPy.insert(0, str(values[4]))
-    txtPz.delete(0, tk.END)
-    txtPz.insert(0, str(values[5]))
-    txtViewUpx.delete(0, tk.END)
-    txtViewUpx.insert(0, str(values[6]))
-    txtViewUpy.delete(0, tk.END)
-    txtViewUpy.insert(0, str(values[7]))
-    txtViewUpz.delete(0, tk.END)
-    txtViewUpz.insert(0, str(values[8]))
-    txtNear.delete(0, tk.END)
-    txtNear.insert(0, str(values[9]))
-    txtFar.delete(0, tk.END)
-    txtFar.insert(0, str(values[10]))
-    txtProjectionPlane.delete(0, tk.END)
-    txtProjectionPlane.insert(0, str(values[11]))
+    # txtPx.delete(0, tk.END)
+    # txtPx.insert(0, str(values[3]))
+    # txtPy.delete(0, tk.END)
+    # txtPy.insert(0, str(values[4]))
+    # txtPz.delete(0, tk.END)
+    # txtPz.insert(0, str(values[5]))
+    # txtViewUpx.delete(0, tk.END)
+    # txtViewUpx.insert(0, str(values[6]))
+    # txtViewUpy.delete(0, tk.END)
+    # txtViewUpy.insert(0, str(values[7]))
+    # txtViewUpz.delete(0, tk.END)
+    # txtViewUpz.insert(0, str(values[8]))
+    # txtNear.delete(0, tk.END)
+    # txtNear.insert(0, str(values[9]))
+    # txtFar.delete(0, tk.END)
+    # txtFar.insert(0, str(values[10]))
+    # txtProjectionPlane.delete(0, tk.END)
+    # txtProjectionPlane.insert(0, str(values[11]))
     txtWorldLimitsxMin.delete(0, tk.END)
     txtWorldLimitsxMin.insert(0, str(values[12]))
     txtWorldLimitsxMax.delete(0, tk.END)
@@ -199,15 +200,15 @@ def ProjectionClick():
     vrpX = isEmpty(txtVRPx.get())
     vrpY = isEmpty(txtVRPy.get())
     vrpZ = isEmpty(txtVRPz.get())
-    pX = isEmpty(txtPx.get())
-    pY = isEmpty(txtPy.get())
-    pZ = isEmpty(txtPz.get())
-    viewUpX = isEmpty(txtViewUpx.get())
-    viewUpY = isEmpty(txtViewUpy.get())
-    viewUpZ = isEmpty(txtViewUpz.get())
-    near = isEmpty(txtNear.get())
-    far = isEmpty(txtFar.get())
-    planoProj = isEmpty(txtProjectionPlane.get())
+    pX = 0
+    pY = 0
+    pZ = 0
+    viewUpX = 0
+    viewUpY = 1
+    viewUpZ = 0
+    near = 10
+    far = 1000
+    planoProj = 50
     mundoxMin = isEmpty(txtWorldLimitsxMin.get())
     mundoxMax = isEmpty(txtWorldLimitsxMax.get())
     mundoyMin = isEmpty(txtWorldLimitsyMin.get())
@@ -351,33 +352,33 @@ if __name__ == "__main__":
     labelVRPz = ttk.Label(t2.sub_frame, text="Z")
     txtVRPz = ttk.Entry(t2.sub_frame, name="txtVRPz", width=15)
 
-    labelP = ttk.Label(t2.sub_frame, text="Vector P",
-                       font="-weight bold -size 9")
-    labelPx = ttk.Label(t2.sub_frame, text="X")
-    txtPx = ttk.Entry(t2.sub_frame, name="txtPx", width=15)
-    labelPy = ttk.Label(t2.sub_frame, text="Y")
-    txtPy = ttk.Entry(t2.sub_frame, name="txtPy", width=15)
-    labelPz = ttk.Label(t2.sub_frame, text="Z")
-    txtPz = ttk.Entry(t2.sub_frame, name="txtPz", width=15)
+    # labelP = ttk.Label(t2.sub_frame, text="Vector P",
+    #                    font="-weight bold -size 9")
+    # labelPx = ttk.Label(t2.sub_frame, text="X")
+    # txtPx = ttk.Entry(t2.sub_frame, name="txtPx", width=15)
+    # labelPy = ttk.Label(t2.sub_frame, text="Y")
+    # txtPy = ttk.Entry(t2.sub_frame, name="txtPy", width=15)
+    # labelPz = ttk.Label(t2.sub_frame, text="Z")
+    # txtPz = ttk.Entry(t2.sub_frame, name="txtPz", width=15)
 
-    labelViewUp = ttk.Label(
-        t2.sub_frame, text="View-Up Vector", font="-weight bold -size 9")
-    labelViewUpx = ttk.Label(t2.sub_frame, text="X")
-    txtViewUpx = ttk.Entry(t2.sub_frame, name="txtViewUpx", width=15)
-    labelViewUpy = ttk.Label(t2.sub_frame, text="Y")
-    txtViewUpy = ttk.Entry(t2.sub_frame, name="txtViewUpy", width=15)
-    labelViewUpz = ttk.Label(t2.sub_frame, text="Z")
-    txtViewUpz = ttk.Entry(t2.sub_frame, name="txtViewUpz", width=15)
+    # labelViewUp = ttk.Label(
+    #     t2.sub_frame, text="View-Up Vector", font="-weight bold -size 9")
+    # labelViewUpx = ttk.Label(t2.sub_frame, text="X")
+    # txtViewUpx = ttk.Entry(t2.sub_frame, name="txtViewUpx", width=15)
+    # labelViewUpy = ttk.Label(t2.sub_frame, text="Y")
+    # txtViewUpy = ttk.Entry(t2.sub_frame, name="txtViewUpy", width=15)
+    # labelViewUpz = ttk.Label(t2.sub_frame, text="Z")
+    # txtViewUpz = ttk.Entry(t2.sub_frame, name="txtViewUpz", width=15)
 
-    labelDistancia = ttk.Label(
-        t2.sub_frame, text="Distances", font="-weight bold -size 9")
-    labelNear = ttk.Label(t2.sub_frame, text="Near Plane")
-    txtNear = ttk.Entry(t2.sub_frame, name="txtNear", width=15)
-    labelFar = ttk.Label(t2.sub_frame, text="Far Plane")
-    txtFar = ttk.Entry(t2.sub_frame, name="txtFar", width=15)
-    labelProjectionPlane = ttk.Label(t2.sub_frame, text="Projection Plane")
-    txtProjectionPlane = ttk.Entry(
-        t2.sub_frame, name="txtProjectionPlane", width=15)
+    # labelDistancia = ttk.Label(
+    #     t2.sub_frame, text="Distances", font="-weight bold -size 9")
+    # labelNear = ttk.Label(t2.sub_frame, text="Near Plane")
+    # txtNear = ttk.Entry(t2.sub_frame, name="txtNear", width=15)
+    # labelFar = ttk.Label(t2.sub_frame, text="Far Plane")
+    # txtFar = ttk.Entry(t2.sub_frame, name="txtFar", width=15)
+    # labelProjectionPlane = ttk.Label(t2.sub_frame, text="Projection Plane")
+    # txtProjectionPlane = ttk.Entry(
+    #     t2.sub_frame, name="txtProjectionPlane", width=15)
 
     labelWorldLimits = ttk.Label(
         t2.sub_frame, text="Window Limits", font="-weight bold -size 9")
@@ -430,29 +431,29 @@ if __name__ == "__main__":
     labelVRPz.grid(row=6, column=1, padx=1, pady=1)
     txtVRPz.grid(row=6, column=2, padx=1, pady=1)
 
-    labelP.grid(row=7, column=1, padx=10, pady=2, sticky=W)
-    labelPx.grid(row=8, column=1, padx=1, pady=1)
-    txtPx.grid(row=8, column=2, padx=1, pady=1)
-    labelPy.grid(row=9, column=1, padx=1, pady=1)
-    txtPy.grid(row=9, column=2, padx=1, pady=1)
-    labelPz.grid(row=10, column=1, padx=1, pady=1)
-    txtPz.grid(row=10, column=2, padx=1, pady=1)
+    # labelP.grid(row=7, column=1, padx=10, pady=2, sticky=W)
+    # labelPx.grid(row=8, column=1, padx=1, pady=1)
+    # txtPx.grid(row=8, column=2, padx=1, pady=1)
+    # labelPy.grid(row=9, column=1, padx=1, pady=1)
+    # txtPy.grid(row=9, column=2, padx=1, pady=1)
+    # labelPz.grid(row=10, column=1, padx=1, pady=1)
+    # txtPz.grid(row=10, column=2, padx=1, pady=1)
 
-    labelViewUp.grid(row=11, column=1, padx=10, pady=2, sticky=W)
-    labelViewUpx.grid(row=12, column=1, padx=1, pady=1)
-    txtViewUpx.grid(row=12, column=2, padx=1, pady=1)
-    labelViewUpy.grid(row=13, column=1, padx=1, pady=1)
-    txtViewUpy.grid(row=13, column=2, padx=1, pady=1)
-    labelViewUpz.grid(row=14, column=1, padx=1, pady=1)
-    txtViewUpz.grid(row=14, column=2, padx=1, pady=1)
+    # labelViewUp.grid(row=11, column=1, padx=10, pady=2, sticky=W)
+    # labelViewUpx.grid(row=12, column=1, padx=1, pady=1)
+    # txtViewUpx.grid(row=12, column=2, padx=1, pady=1)
+    # labelViewUpy.grid(row=13, column=1, padx=1, pady=1)
+    # txtViewUpy.grid(row=13, column=2, padx=1, pady=1)
+    # labelViewUpz.grid(row=14, column=1, padx=1, pady=1)
+    # txtViewUpz.grid(row=14, column=2, padx=1, pady=1)
 
-    labelDistancia.grid(row=15, column=1, padx=10, pady=2, sticky=W)
-    labelNear.grid(row=16, column=1, padx=1, pady=1)
-    txtNear.grid(row=16, column=2, padx=1, pady=1)
-    labelFar.grid(row=17, column=1, padx=1, pady=1)
-    txtFar.grid(row=17, column=2, padx=1, pady=1)
-    labelProjectionPlane.grid(row=18, column=1, padx=1, pady=1)
-    txtProjectionPlane.grid(row=18, column=2, padx=1, pady=1)
+    # labelDistancia.grid(row=15, column=1, padx=10, pady=2, sticky=W)
+    # labelNear.grid(row=16, column=1, padx=1, pady=1)
+    # txtNear.grid(row=16, column=2, padx=1, pady=1)
+    # labelFar.grid(row=17, column=1, padx=1, pady=1)
+    # txtFar.grid(row=17, column=2, padx=1, pady=1)
+    # labelProjectionPlane.grid(row=18, column=1, padx=1, pady=1)
+    # txtProjectionPlane.grid(row=18, column=2, padx=1, pady=1)
 
     labelWorldLimits.grid(row=19, column=1, padx=10, pady=4, sticky=W)
     labelWorldLimitsxMin.grid(row=20, column=1, padx=1, pady=1)
@@ -478,9 +479,9 @@ if __name__ == "__main__":
     buttonObject(1, 1, 1)
     ProjectionSet(drawing.GetProjection())
 
-    txtPx['state'] = tk.DISABLED
-    txtPy['state'] = tk.DISABLED
-    txtPz['state'] = tk.DISABLED
+    # txtPx['state'] = tk.DISABLED
+    # txtPy['state'] = tk.DISABLED
+    # txtPz['state'] = tk.DISABLED
 
     drawing.canvas.bind('<Button-1>', SelectingObject)
 
