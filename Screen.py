@@ -222,10 +222,10 @@ class Screen():
                 self.objectsInCanvas[objects] = []
                 if(objects == self.objectSelected):
                     for viewport_face_idx in self.objects[objects].faces_order:
-                        self.objectsInCanvas[objects].append(self.canvas.create_polygon(self.objects[objects].getCoordinates(viewport_face_idx), outline= "#000000", fill= self.objects[objects].color_of_faces[viewport_face_idx], width = 2, tags = "objeto"))
+                        self.objectsInCanvas[objects].append(self.canvas.create_polygon(self.objects[objects].getCoordinates(viewport_face_idx), outline= "#000000", fill= self.objects[objects].color_of_faces[viewport_face_idx], width = 2, tags = "object"))
                 else:
                     for viewport_face_idx in self.objects[objects].faces_order:
-                        self.objectsInCanvas[objects].append(self.canvas.create_polygon(self.objects[objects].getCoordinates(viewport_face_idx), outline= self.objects[objects].color_of_faces[viewport_face_idx], fill= self.objects[objects].color_of_faces[viewport_face_idx], width = 2, tags = "objeto"))
+                        self.objectsInCanvas[objects].append(self.canvas.create_polygon(self.objects[objects].getCoordinates(viewport_face_idx), outline= self.objects[objects].color_of_faces[viewport_face_idx], fill= self.objects[objects].color_of_faces[viewport_face_idx], width = 2, tags = "object"))
 
         self.DefineAxis()
 
