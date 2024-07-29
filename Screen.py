@@ -287,6 +287,10 @@ class Screen():
         self.Draw()
     
     def UpdateObject(self, ka, kd, ks):
+        self.r_bottom = 20
+        self.r_top = 10
+        self.height = 20
+        self.sides = 12
         self.objects[self.objectSelected].ka = ka 
         self.objects[self.objectSelected].kd = kd 
         self.objects[self.objectSelected].ks = ks 
