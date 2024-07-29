@@ -2,7 +2,7 @@ from main import SendUI
 
 
 class Transformation:
-    translationValue = 5
+    translationValue = 1
     scaleLessValue = 0.9
     scaleMoreValue = 1.111111
     rotationValue = 5

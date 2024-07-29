@@ -20,26 +20,35 @@ from RGBSlider import RGBSliderApp
 
 
 def buttonObject(_, __, ___):
-    pass
-    # if (drawing.objectSelected is not None):
-    #     btnUpdateObject['state'] = tk.NORMAL
-    #     btnUpdateObject['cursor'] = "hand2"
-    #     btnCreateObject['state'] = tk.DISABLED
-    #     btnCreateObject['cursor'] = "arrow"
-    # else:
-    #     btnUpdateObject['state'] = tk.DISABLED
-    #     btnUpdateObject['cursor'] = "arrow"
-    #     btnCreateObject['state'] = tk.NORMAL
-    #     btnCreateObject['cursor'] = "hand2"
+    # pass
+    if (drawing.objectSelected is not None):
+        btnUpdateObject['state'] = tk.NORMAL
+        btnUpdateObject['cursor'] = "hand2"
+        btnCreateObject['state'] = tk.DISABLED
+        btnCreateObject['cursor'] = "arrow"
+        btnDelete['state'] = tk.NORMAL
+        btnDelete['cursor'] = "hand2"
+    else:
+        btnUpdateObject['state'] = tk.DISABLED
+        btnUpdateObject['cursor'] = "arrow"
+        btnCreateObject['state'] = tk.NORMAL
+        btnCreateObject['cursor'] = "hand2"
+        btnDelete['state'] = tk.DISABLED
+        btnDelete['cursor'] = "arrow"
 
 def DeleteObject(window):
     #drawing.objectSelected = None
-    btnCreateObject['state']= tk.NORMAL
+    btnUpdateObject['state'] = tk.DISABLED
+    btnUpdateObject['cursor'] = "arrow"
+    btnCreateObject['state'] = tk.NORMAL
+    btnCreateObject['cursor'] = "hand2"
     txtNumSides['state'] = tk.NORMAL
     txtHeight['state'] = tk.NORMAL
     txtBaseRadius['state'] = tk.NORMAL
     txtTopRadius['state'] = tk.NORMAL
-    #clearObjectInfo()
+    btnDelete['state'] = tk.DISABLED
+    btnDelete['cursor'] = "arrow"
+    clearObjectInfo()
     for i in range(0,75):
         window.event_generate('<KeyPress-w>')
 
