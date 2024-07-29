@@ -5,7 +5,7 @@ import tkinter as tk
 from tkinter import Frame, ttk, messagebox
 from tkinter.constants import W
 from frames import ToggledFrame
-from RGBSLider import RGBSliderApp
+from RGBSlider import RGBSliderApp
 
 
 """def readRadiusButton(_, __, ___):
@@ -58,10 +58,7 @@ def ClearScreen():
 
 
 def SendUI(values):
-<<<<<<< HEAD
     pass
-=======
->>>>>>> c95a7d5f70bad9f9fb060f98bf1c22081693fb9b
     # txtNumSides.delete(0, tk.END)
     # txtNumSides.insert(0, str(values[0]))
     # txtBaseRadius.delete(0, tk.END)
@@ -71,7 +68,6 @@ def SendUI(values):
     # txtHeight.delete(0, tk.END)
     # txtHeight.insert(0, str(values[3]))
 
-<<<<<<< HEAD
     # txtKaR.reset()
     # txtKaR.set(values[5])
     # txtKaG.reset()
@@ -90,7 +86,6 @@ def SendUI(values):
     # txtKsG.set(values[12])
     # txtKsB.reset()
     # txtKsB.set(values[13])
-=======
     # slideKa.reset()
     # slideKs.reset()
     # slideKd.reset()
@@ -105,7 +100,6 @@ def SendUI(values):
     # txtKsG.set(values[12])
     # txtKsB.set(values[13])
     pass
->>>>>>> c95a7d5f70bad9f9fb060f98bf1c22081693fb9b
 
 
 def clearObjectInfo():
