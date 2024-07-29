@@ -20,17 +20,28 @@ from RGBSlider import RGBSliderApp
 
 
 def buttonObject(_, __, ___):
-    if (drawing.objectSelected is not None):
-        btnUpdateObject['state'] = tk.NORMAL
-        btnUpdateObject['cursor'] = "hand2"
-        btnCreateObject['state'] = tk.DISABLED
-        btnCreateObject['cursor'] = "arrow"
-    else:
-        btnUpdateObject['state'] = tk.DISABLED
-        btnUpdateObject['cursor'] = "arrow"
-        btnCreateObject['state'] = tk.NORMAL
-        btnCreateObject['cursor'] = "hand2"
+    pass
+    # if (drawing.objectSelected is not None):
+    #     btnUpdateObject['state'] = tk.NORMAL
+    #     btnUpdateObject['cursor'] = "hand2"
+    #     btnCreateObject['state'] = tk.DISABLED
+    #     btnCreateObject['cursor'] = "arrow"
+    # else:
+    #     btnUpdateObject['state'] = tk.DISABLED
+    #     btnUpdateObject['cursor'] = "arrow"
+    #     btnCreateObject['state'] = tk.NORMAL
+    #     btnCreateObject['cursor'] = "hand2"
 
+def DeleteObject(window):
+    #drawing.objectSelected = None
+    btnCreateObject['state']= tk.NORMAL
+    txtNumSides['state'] = tk.NORMAL
+    txtHeight['state'] = tk.NORMAL
+    txtBaseRadius['state'] = tk.NORMAL
+    txtTopRadius['state'] = tk.NORMAL
+    #clearObjectInfo()
+    for i in range(0,75):
+        window.event_generate('<KeyPress-w>')
 
 def ClearScreen():
     drawing.ClearAll()
@@ -78,10 +89,10 @@ def SelectingObject(event):
         drawing.ObjectSelection(
             drawing.canvas.find_withtag("current")[0])
         SendUI(drawing.GetAttributes())
-        txtNumSides['state'] = tk.DISABLED
-        txtHeight['state'] = tk.DISABLED
-        txtBaseRadius['state'] = tk.DISABLED
-        txtTopRadius['state'] = tk.DISABLED
+        # txtNumSides['state'] = tk.DISABLED
+        # txtHeight['state'] = tk.DISABLED
+        # txtBaseRadius['state'] = tk.DISABLED
+        # txtTopRadius['state'] = tk.DISABLED
     
     
     else:
@@ -264,6 +275,10 @@ if __name__ == "__main__":
     btnClear = ttk.Button(window, text="Clear", width=15,
                           command=ClearScreen, cursor="hand2")
     btnClear.place(x=width-(410+width*0.01), y=int(height * 0.88))
+
+    btnDelete = ttk.Button(window, text="Delete object", width=15,
+                           command=lambda: DeleteObject(window), cursor="hand2")
+    btnDelete.place(x=width-(510+width*0.01), y=int(height * 0.88))
 
     txtIntegrantes = ttk.Label(
         window, text='"Developed by: Sandip Katel, Saphal Rimal, Sharad Pokharel, and Sijan Joshi')
