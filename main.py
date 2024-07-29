@@ -260,7 +260,7 @@ def updateAxes():
 if __name__ == "__main__":
     from transformations import Transformation
     window = tk.Tk()
-    window.title('The Marvelous Polygoneer')
+    window.title('3D Polygoneer')
     width = 1280
     height = 750
     window.geometry('{}x{}+{}+{}'.format(1280, 690, 0, 0))
