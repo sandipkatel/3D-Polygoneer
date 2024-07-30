@@ -58,10 +58,6 @@ def ClearScreen():
 
 
 def SendUI(values):
-<<<<<<< HEAD
-    pass
-=======
->>>>>>> c95a7d5f70bad9f9fb060f98bf1c22081693fb9b
     # txtNumSides.delete(0, tk.END)
     # txtNumSides.insert(0, str(values[0]))
     # txtBaseRadius.delete(0, tk.END)
@@ -71,7 +67,6 @@ def SendUI(values):
     # txtHeight.delete(0, tk.END)
     # txtHeight.insert(0, str(values[3]))
 
-<<<<<<< HEAD
     # txtKaR.reset()
     # txtKaR.set(values[5])
     # txtKaG.reset()
@@ -196,24 +191,7 @@ def ProjectionSet(values):
     txtVRPy.insert(0, str(values[1]))
     txtVRPz.delete(0, tk.END)
     txtVRPz.insert(0, str(values[2]))
-    # txtPx.delete(0, tk.END)
-    # txtPx.insert(0, str(values[3]))
-    # txtPy.delete(0, tk.END)
-    # txtPy.insert(0, str(values[4]))
-    # txtPz.delete(0, tk.END)
-    # txtPz.insert(0, str(values[5]))
-    # txtViewUpx.delete(0, tk.END)
-    # txtViewUpx.insert(0, str(values[6]))
-    # txtViewUpy.delete(0, tk.END)
-    # txtViewUpy.insert(0, str(values[7]))
-    # txtViewUpz.delete(0, tk.END)
-    # txtViewUpz.insert(0, str(values[8]))
-    # txtNear.delete(0, tk.END)
-    # txtNear.insert(0, str(values[9]))
-    # txtFar.delete(0, tk.END)
-    # txtFar.insert(0, str(values[10]))
-    # txtProjectionPlane.delete(0, tk.END)
-    # txtProjectionPlane.insert(0, str(values[11]))
+
     txtWorldLimitsxMin.delete(0, tk.END)
     txtWorldLimitsxMin.insert(0, str(values[12]))
     txtWorldLimitsxMax.delete(0, tk.END)
